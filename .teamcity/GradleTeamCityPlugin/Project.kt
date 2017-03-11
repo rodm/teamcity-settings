@@ -2,6 +2,8 @@ package GradleTeamCityPlugin
 
 import jetbrains.buildServer.configs.kotlin.v10.*
 import jetbrains.buildServer.configs.kotlin.v10.Project
+import jetbrains.buildServer.configs.kotlin.v10.projectFeatures.VersionedSettings
+import jetbrains.buildServer.configs.kotlin.v10.projectFeatures.versionedSettings
 import jetbrains.buildServer.configs.kotlin.v10.vcs.GitVcsRoot
 
 object Project : Project({
@@ -17,4 +19,15 @@ object Project : Project({
         name = "teamcity-settings"
         url = "https://github.com/rodm/teamcity-settings"
     }))
+
+    features {
+        versionedSettings {
+            id = "PROJECT_EXT_1"
+            mode = VersionedSettings.Mode.ENABLED
+            buildSettingsMode = VersionedSettings.BuildSettingsMode.PREFER_SETTINGS_FROM_VCS
+            rootExtId = "TeamcitySettings"
+            showChanges = true
+            settingsFormat = VersionedSettings.Format.KOTLIN
+        }
+    }
 })
