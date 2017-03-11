@@ -8,4 +8,5 @@ object Project : Project({
     extId = "GradleTeamCityPlugin"
     parentId = "_Root"
     name = "Gradle TeamCity Plugin"
+    description = "Gradle TeamCity Plugin project"
 })
