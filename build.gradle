@@ -1,5 +1,6 @@
 
 plugins {
+    id 'java'
     id 'com.github.rodm.teamcity-server' version '0.11'
 }
 
@@ -7,6 +8,47 @@ ext {
     downloadsDir = findProperty('downloads.dir') ?: "$rootDir/downloads"
     serversDir = findProperty('servers.dir') ?: "$rootDir/servers"
     java8Home = findProperty('java8.home') ?: '/opt/jdk1.8.0_121'
+}
+
+repositories {
+    maven {
+        url 'http://localhost:8111/app/dsl-plugins-repository'
+    }
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:1.0.3"
+    compile "org.jetbrains.teamcity:configs-dsl-kotlin:10.0.4"
+
+//    compile "org.jetbrains.teamcity:configs-dsl-kotlin-plugins:1.0-SNAPSHOT:pom"
+    compile "org.jetbrains.teamcity:configs-dsl-kotlin-ant:1.0-SNAPSHOT"
+    compile "org.jetbrains.teamcity:configs-dsl-kotlin-bugzilla:1.0-SNAPSHOT"
+    compile "org.jetbrains.teamcity:configs-dsl-kotlin-bundled:1.0-SNAPSHOT"
+    compile "org.jetbrains.teamcity:configs-dsl-kotlin-charisma:1.0-SNAPSHOT"
+    compile "org.jetbrains.teamcity:configs-dsl-kotlin-commandLineRunner:1.0-SNAPSHOT"
+    compile "org.jetbrains.teamcity:configs-dsl-kotlin-commit-status-publisher:1.0-SNAPSHOT"
+    compile "org.jetbrains.teamcity:configs-dsl-kotlin-dotNetRunners:1.0-SNAPSHOT"
+    compile "org.jetbrains.teamcity:configs-dsl-kotlin-file-content-replacer:1.0-SNAPSHOT"
+    compile "org.jetbrains.teamcity:configs-dsl-kotlin-gradle:1.0-SNAPSHOT"
+    compile "org.jetbrains.teamcity:configs-dsl-kotlin-jetbrains.git:1.0-SNAPSHOT"
+    compile "org.jetbrains.teamcity:configs-dsl-kotlin-jira:1.0-SNAPSHOT"
+    compile "org.jetbrains.teamcity:configs-dsl-kotlin-Maven2:1.0-SNAPSHOT"
+    compile "org.jetbrains.teamcity:configs-dsl-kotlin-mercurial:1.0-SNAPSHOT"
+    compile "org.jetbrains.teamcity:configs-dsl-kotlin-perforce:1.0-SNAPSHOT"
+    compile "org.jetbrains.teamcity:configs-dsl-kotlin-ssh-manager:1.0-SNAPSHOT"
+    compile "org.jetbrains.teamcity:configs-dsl-kotlin-svn:1.0-SNAPSHOT"
+    compile "org.jetbrains.teamcity:configs-dsl-kotlin-swabra:1.0-SNAPSHOT"
+    compile "org.jetbrains.teamcity:configs-dsl-kotlin-teamcity-powershell:1.0-SNAPSHOT"
+    compile "org.jetbrains.teamcity:configs-dsl-kotlin-tfs:1.0-SNAPSHOT"
+    compile "org.jetbrains.teamcity:configs-dsl-kotlin-visualstudiotest:1.0-SNAPSHOT"
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['.teamcity']
+        }
+    }
 }
 
 teamcity {
