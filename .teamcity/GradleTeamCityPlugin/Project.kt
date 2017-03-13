@@ -5,7 +5,7 @@ import jetbrains.buildServer.configs.kotlin.v10.Project
 import jetbrains.buildServer.configs.kotlin.v10.buildSteps.gradle
 import jetbrains.buildServer.configs.kotlin.v10.projectFeatures.VersionedSettings
 import jetbrains.buildServer.configs.kotlin.v10.projectFeatures.versionedSettings
-import jetbrains.buildServer.configs.kotlin.v10.triggers.vcs
+//import jetbrains.buildServer.configs.kotlin.v10.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v10.vcs.GitVcsRoot
 
 object Project : Project({
