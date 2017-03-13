@@ -45,7 +45,7 @@ object Project : Project({
     val buildType = BuildType({
         uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef0"
         extId = "GradleTeamcityPlugin_Build"
-        name = "Build"
+        name = "Build - Java 7"
 
         vcs {
             root(vcs)
@@ -57,11 +57,13 @@ object Project : Project({
                 useGradleWrapper = true
                 gradleWrapperPath = ""
                 enableStacktrace = true
+                jdkHome = "%java.home%"
             }
         }
 
         params {
             param("gradle.tasks", "clean build")
+            param("java.home", "%java7.home%")
         }
 
         triggers {
