@@ -6,7 +6,6 @@ import jetbrains.buildServer.configs.kotlin.v10.buildSteps.gradle
 import jetbrains.buildServer.configs.kotlin.v10.projectFeatures.VersionedSettings
 import jetbrains.buildServer.configs.kotlin.v10.projectFeatures.versionedSettings
 import jetbrains.buildServer.configs.kotlin.v10.triggers.vcs
-import jetbrains.buildServer.configs.kotlin.v10.triggers.VcsTrigger
 import jetbrains.buildServer.configs.kotlin.v10.vcs.GitVcsRoot
 
 object Project : Project({
@@ -62,7 +61,6 @@ object Project : Project({
 
         triggers {
             vcs {
-                quietPeriodMode = VcsTrigger.QuietPeriodMode.USE_DEFAULT
             }
         }
     })
