@@ -53,10 +53,15 @@ object Project : Project({
 
         steps {
             gradle {
-                tasks = "clean build"
+                tasks = "%gradle.tasks%"
                 useGradleWrapper = true
                 gradleWrapperPath = ""
+                enableStacktrace = true
             }
+        }
+
+        params {
+            param("gradle.tasks", "clean build")
         }
 
         triggers {
