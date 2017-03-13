@@ -1,7 +1,8 @@
 package GradleTeamCityPlugin
 
-import jetbrains.buildServer.configs.kotlin.v10.*
+import jetbrains.buildServer.configs.kotlin.v10.BuildType
 import jetbrains.buildServer.configs.kotlin.v10.Project
+import jetbrains.buildServer.configs.kotlin.v10.buildSteps.gradle
 import jetbrains.buildServer.configs.kotlin.v10.projectFeatures.VersionedSettings
 import jetbrains.buildServer.configs.kotlin.v10.projectFeatures.versionedSettings
 import jetbrains.buildServer.configs.kotlin.v10.vcs.GitVcsRoot
@@ -30,4 +31,37 @@ object Project : Project({
             settingsFormat = VersionedSettings.Format.KOTLIN
         }
     }
+
+    val vcs = GitVcsRoot({
+        uuid = "ac063d49-90e5-4baf-84b3-7f307586ae0e"
+        extId = "GradleTeamcityPlugin"
+        name = "gradle-teamcity-plugin"
+        url = "https://github.com/rodm/gradle-teamcity-plugin.git"
+    })
+
+    vcsRoot(vcs)
+
+    val buildType = BuildType({
+        uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef0"
+        extId = "GradleTeamcityPlugin_Build"
+        name = "Build"
+
+        vcs {
+            root(vcs)
+        }
+
+        steps {
+            gradle {
+                tasks = "clean build"
+                useGradleWrapper = true
+                gradleWrapperPath = ""
+            }
+        }
+
+        triggers {
+            vcs {
+            }
+        }
+    })
+    buildType(buildType)
 })
