@@ -74,7 +74,7 @@ object Project : Project({
     buildType(java7BuildType)
 
     val java8BuildType = BuildType({
-        uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef1"
+//        uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef1"
         extId = "GradleTeamcityPlugin_BuildJava8"
         name = "Build - Java 8"
 
