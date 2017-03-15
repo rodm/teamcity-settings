@@ -42,9 +42,9 @@ object Project : Project({
 
     vcsRoot(vcs)
 
-    val buildType = BuildType({
+    val java7BuildType = BuildType({
         uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef0"
-        extId = "GradleTeamcityPlugin_Build"
+        extId = "GradleTeamcityPlugin_BuildJava7"
         name = "Build - Java 7"
 
         vcs {
@@ -71,5 +71,36 @@ object Project : Project({
             }
         }
     })
-    buildType(buildType)
+    buildType(java7BuildType)
+
+    val java8BuildType = BuildType({
+        uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef1"
+        extId = "GradleTeamcityPlugin_BuildJava8"
+        name = "Build - Java 8"
+
+        vcs {
+            root(vcs)
+        }
+
+        steps {
+            gradle {
+                tasks = "%gradle.tasks%"
+                useGradleWrapper = true
+                gradleWrapperPath = ""
+                enableStacktrace = true
+                jdkHome = "%java.home%"
+            }
+        }
+
+        triggers {
+            vcs {
+            }
+        }
+
+        params {
+            param("gradle.tasks", "clean build")
+            param("java.home", "%java8.home%")
+        }
+    })
+    buildType(java8BuildType)
 })
