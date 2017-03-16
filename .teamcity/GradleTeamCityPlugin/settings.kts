@@ -124,4 +124,66 @@ project {
         }
     })
     buildType(java8BuildType)
+
+    val functionalTestJava7BuildType = BuildType({
+        uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef2"
+        extId = "GradleTeamcityPlugin_FunctionalTestJava7"
+        name = "Functional Test - Java 7"
+
+        vcs {
+            root(vcs)
+        }
+
+        steps {
+            gradle {
+                tasks = "%gradle.tasks%"
+                useGradleWrapper = true
+                gradleWrapperPath = ""
+                enableStacktrace = true
+                jdkHome = "%java.home%"
+            }
+        }
+
+        triggers {
+            vcs {
+            }
+        }
+
+        params {
+            param("gradle.tasks", "clean functionalTest")
+            param("java.home", "%java7.home%")
+        }
+    })
+    buildType(functionalTestJava7BuildType)
+
+    val functionalTestJava8BuildType = BuildType({
+        uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef3"
+        extId = "GradleTeamcityPlugin_FunctionalTestJava8"
+        name = "Functional Test - Java 8"
+
+        vcs {
+            root(vcs)
+        }
+
+        steps {
+            gradle {
+                tasks = "%gradle.tasks%"
+                useGradleWrapper = true
+                gradleWrapperPath = ""
+                enableStacktrace = true
+                jdkHome = "%java.home%"
+            }
+        }
+
+        triggers {
+            vcs {
+            }
+        }
+
+        params {
+            param("gradle.tasks", "clean functionalTest")
+            param("java.home", "%java8.home%")
+        }
+    })
+    buildType(functionalTestJava8BuildType)
 }
