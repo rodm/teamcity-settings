@@ -1,0 +1,20 @@
+
+Example TeamCity Kotlin DSL configuration to build the https://github.com/rodm/gradle-teamcity-plugin[Gradle TeamCity plugin]
+
+Follow the steps below to import the settings into a TeamCity server
+
+* Create a VCS Root for the https://github.com/rodm/teamcity-settings[TeamCity settings] project in the 'Root project'
+** Enter the project URL, https://github.com/rodm/teamcity-settings, in the Fetch URL field
+** Enter the branch, refs/heads/basic, in the Default branch field
+
+* Create a new sub-project under the Root project
+** Enter a project name
+** Enter a project ID 'GradleTeamCityPlugin'
+
+* Select 'Versioned Settings'
+** Select the option 'Synchronization enabled', select the VCS root created above then select 'use settings from VCS'
+and set the format to 'Kotlin' and click the Apply button.
+** A dialog should appear indicating existing settings have been detected, select the 'Import from VCS option'.
+TeamCity should update the project and create a build configuration.
+
+To make changes fork the project and update the VCS root URLs to use your own repository.
