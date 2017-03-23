@@ -121,6 +121,13 @@ fun configureBuildType(buildType: BuildType, vcs: GitVcsRoot, gradleTasks: Strin
             }
         }
 
+        features {
+            feature {
+                id = "perfmon"
+                type = "perfmon"
+            }
+        }
+
         params {
             param("gradle.tasks", gradleTasks)
             param("gradle.opts", "")
