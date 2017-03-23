@@ -63,104 +63,33 @@ project {
 
     vcsRoot(vcs)
 
-    val java7BuildType = BuildType({
-        uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef0"
-        extId = "GradleTeamcityPlugin_BuildJava7"
-        name = "Build - Java 7"
-
-        vcs {
-            root(vcs)
-        }
-
-        steps {
-            gradle {
-                tasks = "%gradle.tasks%"
-                useGradleWrapper = true
-                gradleWrapperPath = ""
-                enableStacktrace = true
-                jdkHome = "%java.home%"
-            }
-        }
-
-        params {
-            param("gradle.tasks", "clean build")
-            param("java.home", "%java7.home%")
-        }
-
-        triggers {
-            vcs {
-            }
-        }
-    })
+    val java7BuildType = createBuildType("Build - Java 7", "GradleTeamcityPlugin_BuildJava7", "b9b0cbf7-1665-4fe5-a24d-956280379ef0")
+    configureBuildType(java7BuildType, vcs, "clean build", "%java7.home%")
     buildType(java7BuildType)
 
-    val java8BuildType = BuildType({
-        uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef1"
-        extId = "GradleTeamcityPlugin_BuildJava8"
-        name = "Build - Java 8"
-
-        vcs {
-            root(vcs)
-        }
-
-        steps {
-            gradle {
-                tasks = "%gradle.tasks%"
-                useGradleWrapper = true
-                gradleWrapperPath = ""
-                enableStacktrace = true
-                jdkHome = "%java.home%"
-            }
-        }
-
-        triggers {
-            vcs {
-            }
-        }
-
-        params {
-            param("gradle.tasks", "clean build")
-            param("java.home", "%java8.home%")
-        }
-    })
+    val java8BuildType = createBuildType("Build - Java 8", "GradleTeamcityPlugin_BuildJava8", "b9b0cbf7-1665-4fe5-a24d-956280379ef1")
+    configureBuildType(java8BuildType, vcs, "clean build", "%java8.home%")
     buildType(java8BuildType)
 
-    val functionalTestJava7BuildType = BuildType({
-        uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef2"
-        extId = "GradleTeamcityPlugin_FunctionalTestJava7"
-        name = "Functional Test - Java 7"
-
-        vcs {
-            root(vcs)
-        }
-
-        steps {
-            gradle {
-                tasks = "%gradle.tasks%"
-                useGradleWrapper = true
-                gradleWrapperPath = ""
-                enableStacktrace = true
-                jdkHome = "%java.home%"
-            }
-        }
-
-        triggers {
-            vcs {
-            }
-        }
-
-        params {
-            param("gradle.tasks", "clean functionalTest")
-            param("java.home", "%java7.home%")
-        }
-    })
+    val functionalTestJava7BuildType = createBuildType("Functional Test - Java 7", "GradleTeamcityPlugin_FunctionalTestJava7", "b9b0cbf7-1665-4fe5-a24d-956280379ef2")
+    configureBuildType(functionalTestJava7BuildType, vcs, "clean functionalTest", "%java7.home%")
     buildType(functionalTestJava7BuildType)
 
-    val functionalTestJava8BuildType = BuildType({
-        uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef3"
-        extId = "GradleTeamcityPlugin_FunctionalTestJava8"
-        name = "Functional Test - Java 8"
+    val functionalTestJava8BuildType = createBuildType("Functional Test - Java 8", "GradleTeamcityPlugin_FunctionalTestJava8", "b9b0cbf7-1665-4fe5-a24d-956280379ef3")
+    configureBuildType(functionalTestJava8BuildType, vcs, "clean functionalTest", "%java8.home%")
+    buildType(functionalTestJava8BuildType)
+}
 
+fun createBuildType(name: String, extId: String, uuid: String): BuildType {
+    return BuildType({
+        this.uuid = uuid
+        this.extId = extId
+        this.name = name
+    })
+}
+
+fun configureBuildType(buildType: BuildType, vcs: GitVcsRoot, gradleTasks: String, javaHome: String) {
+    buildType.apply {
         vcs {
             root(vcs)
         }
@@ -181,9 +110,8 @@ project {
         }
 
         params {
-            param("gradle.tasks", "clean functionalTest")
-            param("java.home", "%java8.home%")
+            param("gradle.tasks", gradleTasks)
+            param("java.home", javaHome)
         }
-    })
-    buildType(functionalTestJava8BuildType)
+    }
 }
