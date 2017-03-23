@@ -78,6 +78,10 @@ project {
     val functionalTestJava8BuildType = createBuildType("Functional Test - Java 8", "GradleTeamcityPlugin_FunctionalTestJava8", "b9b0cbf7-1665-4fe5-a24d-956280379ef3")
     configureBuildType(functionalTestJava8BuildType, vcs, "clean functionalTest", "%java8.home%")
     buildType(functionalTestJava8BuildType)
+
+    val samplesBuildType = createBuildType("Samples Test - Java 7", "GradleTeamcityPlugin_SamplesTestJava7", "b9b0cbf7-1665-4fe5-a24d-956280379ef4")
+    configureBuildType(samplesBuildType, vcs, "clean samplesTest", "%java7.home%")
+    buildType(samplesBuildType)
 }
 
 fun createBuildType(name: String, extId: String, uuid: String): BuildType {
