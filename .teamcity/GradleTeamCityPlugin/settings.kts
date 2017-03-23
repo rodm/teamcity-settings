@@ -82,6 +82,13 @@ project {
     val samplesBuildType = createBuildType("Samples Test - Java 7", "GradleTeamcityPlugin_SamplesTestJava7", "b9b0cbf7-1665-4fe5-a24d-956280379ef4")
     configureBuildType(samplesBuildType, vcs, "clean samplesTest", "%java7.home%")
     buildType(samplesBuildType)
+
+    val sonarBuildType = createBuildType("Report - Code Quality", "GradleTeamcityPlugin_ReportCodeQuality", "b9b0cbf7-1665-4fe5-a24d-956280379ef5")
+    configureBuildType(sonarBuildType, vcs, "clean build sonarqube", "%java8.home%")
+    sonarBuildType.params {
+        param("gradle.opts", "%sonar.opts%")
+    }
+    buildType(sonarBuildType)
 }
 
 fun createBuildType(name: String, extId: String, uuid: String): BuildType {
@@ -101,6 +108,7 @@ fun configureBuildType(buildType: BuildType, vcs: GitVcsRoot, gradleTasks: Strin
         steps {
             gradle {
                 tasks = "%gradle.tasks%"
+                gradleParams = "%gradle.opts%"
                 useGradleWrapper = true
                 gradleWrapperPath = ""
                 enableStacktrace = true
@@ -115,6 +123,7 @@ fun configureBuildType(buildType: BuildType, vcs: GitVcsRoot, gradleTasks: Strin
 
         params {
             param("gradle.tasks", gradleTasks)
+            param("gradle.opts", "")
             param("java.home", javaHome)
         }
     }
