@@ -68,7 +68,6 @@ project {
         name = "gradle-teamcity-plugin"
         url = "https://github.com/rodm/gradle-teamcity-plugin.git"
     })
-
     vcsRoot(vcs)
 
     val java7BuildType = createBuildType("Build - Java 7", "GradleTeamcityPlugin_BuildJava7", "b9b0cbf7-1665-4fe5-a24d-956280379ef0")
