@@ -72,11 +72,11 @@ project {
     buildType(java8BuildType)
 
     val functionalTestJava7BuildType = createBuildType("Functional Test - Java 7", "GradleTeamcityPlugin_FunctionalTestJava7", "b9b0cbf7-1665-4fe5-a24d-956280379ef2")
-    configureBuildType(functionalTestJava7BuildType, vcs, "clean functionalTest", "%java7.home%")
+    configureBuildType(functionalTestJava7BuildType, vcs, "clean functionalTest", "%java7.home%", 20)
     buildType(functionalTestJava7BuildType)
 
     val functionalTestJava8BuildType = createBuildType("Functional Test - Java 8", "GradleTeamcityPlugin_FunctionalTestJava8", "b9b0cbf7-1665-4fe5-a24d-956280379ef3")
-    configureBuildType(functionalTestJava8BuildType, vcs, "clean functionalTest", "%java8.home%")
+    configureBuildType(functionalTestJava8BuildType, vcs, "clean functionalTest", "%java8.home%", 20)
     buildType(functionalTestJava8BuildType)
 
     val samplesBuildType = createBuildType("Samples Test - Java 7", "GradleTeamcityPlugin_SamplesTestJava7", "b9b0cbf7-1665-4fe5-a24d-956280379ef4")
@@ -99,7 +99,7 @@ fun createBuildType(name: String, extId: String, uuid: String): BuildType {
     })
 }
 
-fun configureBuildType(buildType: BuildType, vcs: GitVcsRoot, gradleTasks: String, javaHome: String) {
+fun configureBuildType(buildType: BuildType, vcs: GitVcsRoot, gradleTasks: String, javaHome: String, timeout: Int = 10) {
     buildType.apply {
         vcs {
             root(vcs)
@@ -119,6 +119,10 @@ fun configureBuildType(buildType: BuildType, vcs: GitVcsRoot, gradleTasks: Strin
         triggers {
             vcs {
             }
+        }
+
+        failureConditions {
+            executionTimeoutMin = timeout
         }
 
         features {
