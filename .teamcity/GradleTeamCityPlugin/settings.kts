@@ -125,6 +125,7 @@ fun configureBuildType(buildType: BuildType, vcs: GitVcsRoot, gradleTasks: Strin
 
         triggers {
             vcs {
+                triggerRules = "+:root=TeamcitySettings;:*"
             }
         }
 
