@@ -36,12 +36,13 @@ project {
     name = "Gradle TeamCity Plugin"
     description = "Gradle plugin for developing TeamCity plugins"
 
-    vcsRoot(GitVcsRoot({
+    val settingsVcs = GitVcsRoot({
         uuid = "723408f3-cc0c-42da-b348-dedd4bc030ef"
         extId = "TeamcitySettings"
         name = "teamcity-settings"
         url = "https://github.com/rodm/teamcity-settings"
-    }))
+    })
+    vcsRoot(settingsVcs)
 
     features {
         versionedSettings {
@@ -72,6 +73,9 @@ project {
 
     val java7BuildType = createBuildType("Build - Java 7", "GradleTeamcityPlugin_BuildJava7", "b9b0cbf7-1665-4fe5-a24d-956280379ef0")
     configureBuildType(java7BuildType, vcs, "clean build", "%java7.home%")
+    java7BuildType.vcs {
+        root(settingsVcs)
+    }
     buildType(java7BuildType)
 
     val java8BuildType = createBuildType("Build - Java 8", "GradleTeamcityPlugin_BuildJava8", "b9b0cbf7-1665-4fe5-a24d-956280379ef1")
