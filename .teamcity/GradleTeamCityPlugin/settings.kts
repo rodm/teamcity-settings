@@ -52,6 +52,13 @@ project {
             showChanges = true
             settingsFormat = VersionedSettings.Format.KOTLIN
         }
+        feature {
+            id = "PROJECT_EXT_2"
+            type = "JetBrains.SharedResources"
+            param("name", "BuildLimit")
+            param("type", "quoted")
+            param("quota", "2")
+        }
     }
 
     val vcs = GitVcsRoot({
@@ -129,6 +136,11 @@ fun configureBuildType(buildType: BuildType, vcs: GitVcsRoot, gradleTasks: Strin
             feature {
                 id = "perfmon"
                 type = "perfmon"
+            }
+            feature {
+                id = "BUILD_EXT_2"
+                type = "JetBrains.SharedResources"
+                param("locks-param", "BuildLimit readLock")
             }
         }
 
