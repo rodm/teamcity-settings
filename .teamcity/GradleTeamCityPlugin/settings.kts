@@ -71,13 +71,18 @@ project {
     })
     vcsRoot(vcs)
 
-    val baseBuildType = BuildType({
+    val buildTemplate = Template({
+        uuid = "7f359c83-e4f3-4053-b9d6-d403a626b560"
+        extId = "GradleTeamCityPlugin_Build"
+        name = "build"
+
         vcs {
             root(vcs)
         }
 
         steps {
             gradle {
+                id = "RUNNER_1"
                 tasks = "%gradle.tasks%"
                 gradleParams = "%gradle.opts%"
                 useGradleWrapper = true
@@ -89,6 +94,7 @@ project {
 
         triggers {
             vcs {
+                id = "TRIGGER_1"
                 triggerRules = """
                     +:root=TeamcitySettings;:**
                     +:root=GradleTeamcityPlugin:**
@@ -118,38 +124,43 @@ project {
             param("java.home", "%java7.home%")
         }
     })
+    template(buildTemplate)
 
     buildType(BuildType({
         uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef0"
         extId = "GradleTeamcityPlugin_BuildJava7"
         name = "Build - Java 7"
-    }, baseBuildType))
+        template(buildTemplate)
+    }))
 
     buildType(BuildType({
         uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef1"
         extId = "GradleTeamcityPlugin_BuildJava8"
         name = "Build - Java 8"
+        template(buildTemplate)
         params{
             param("java.home", "%java8.home%")
         }
-    }, baseBuildType))
+    }))
 
     buildType(BuildType({
         uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef2"
         extId = "GradleTeamcityPlugin_FunctionalTestJava7"
         name = "Functional Test - Java 7"
+        template(buildTemplate)
         failureConditions {
             executionTimeoutMin = 20
         }
         params{
             param("gradle.tasks", "clean functionalTest")
         }
-    }, baseBuildType))
+    }))
 
     buildType(BuildType({
         uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef3"
         extId = "GradleTeamcityPlugin_FunctionalTestJava8"
         name = "Functional Test - Java 8"
+        template(buildTemplate)
         failureConditions {
             executionTimeoutMin = 20
         }
@@ -157,25 +168,27 @@ project {
             param("gradle.tasks", "clean functionalTest")
             param("java.home", "%java8.home%")
         }
-    }, baseBuildType))
+    }))
 
     buildType(BuildType({
         uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef4"
         extId = "GradleTeamcityPlugin_SamplesTestJava7"
         name = "Samples Test - Java 7"
+        template(buildTemplate)
         params{
             param("gradle.tasks", "clean samplesTest")
         }
-    }, baseBuildType))
+    }))
 
     buildType(BuildType({
         uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef5"
         extId = "GradleTeamcityPlugin_ReportCodeQuality"
         name = "Report - Code Quality"
+        template(buildTemplate)
         params{
             param("gradle.tasks", "clean build sonarqube")
             param("gradle.opts", "%sonar.opts%")
             param("java.home", "%java8.home%")
         }
-    }, baseBuildType))
+    }))
 }
