@@ -70,44 +70,7 @@ project {
     })
     vcsRoot(vcs)
 
-    val java7BuildType = createBuildType("Build - Java 7", "GradleTeamcityPlugin_BuildJava7", "b9b0cbf7-1665-4fe5-a24d-956280379ef0")
-    configureBuildType(java7BuildType, vcs, "clean build", "%java7.home%")
-    buildType(java7BuildType)
-
-    val java8BuildType = createBuildType("Build - Java 8", "GradleTeamcityPlugin_BuildJava8", "b9b0cbf7-1665-4fe5-a24d-956280379ef1")
-    configureBuildType(java8BuildType, vcs, "clean build", "%java8.home%")
-    buildType(java8BuildType)
-
-    val functionalTestJava7BuildType = createBuildType("Functional Test - Java 7", "GradleTeamcityPlugin_FunctionalTestJava7", "b9b0cbf7-1665-4fe5-a24d-956280379ef2")
-    configureBuildType(functionalTestJava7BuildType, vcs, "clean functionalTest", "%java7.home%", 20)
-    buildType(functionalTestJava7BuildType)
-
-    val functionalTestJava8BuildType = createBuildType("Functional Test - Java 8", "GradleTeamcityPlugin_FunctionalTestJava8", "b9b0cbf7-1665-4fe5-a24d-956280379ef3")
-    configureBuildType(functionalTestJava8BuildType, vcs, "clean functionalTest", "%java8.home%", 20)
-    buildType(functionalTestJava8BuildType)
-
-    val samplesBuildType = createBuildType("Samples Test - Java 7", "GradleTeamcityPlugin_SamplesTestJava7", "b9b0cbf7-1665-4fe5-a24d-956280379ef4")
-    configureBuildType(samplesBuildType, vcs, "clean samplesTest", "%java7.home%")
-    buildType(samplesBuildType)
-
-    val sonarBuildType = createBuildType("Report - Code Quality", "GradleTeamcityPlugin_ReportCodeQuality", "b9b0cbf7-1665-4fe5-a24d-956280379ef5")
-    configureBuildType(sonarBuildType, vcs, "clean build sonarqube", "%java8.home%")
-    sonarBuildType.params {
-        param("gradle.opts", "%sonar.opts%")
-    }
-    buildType(sonarBuildType)
-}
-
-fun createBuildType(name: String, extId: String, uuid: String): BuildType {
-    return BuildType({
-        this.uuid = uuid
-        this.extId = extId
-        this.name = name
-    })
-}
-
-fun configureBuildType(buildType: BuildType, vcs: GitVcsRoot, gradleTasks: String, javaHome: String, timeout: Int = 10) {
-    buildType.apply {
+    val baseBuildType = BuildType({
         vcs {
             root(vcs)
         }
@@ -133,7 +96,7 @@ fun configureBuildType(buildType: BuildType, vcs: GitVcsRoot, gradleTasks: Strin
         }
 
         failureConditions {
-            executionTimeoutMin = timeout
+            executionTimeoutMin = 10
         }
 
         features {
@@ -149,9 +112,69 @@ fun configureBuildType(buildType: BuildType, vcs: GitVcsRoot, gradleTasks: Strin
         }
 
         params {
-            param("gradle.tasks", gradleTasks)
+            param("gradle.tasks", "clean build")
             param("gradle.opts", "")
-            param("java.home", javaHome)
+            param("java.home", "%java7.home%")
         }
-    }
+    })
+
+    buildType(BuildType({
+        uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef0"
+        extId = "GradleTeamcityPlugin_BuildJava7"
+        name = "Build - Java 7"
+    }, baseBuildType))
+
+    buildType(BuildType({
+        uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef1"
+        extId = "GradleTeamcityPlugin_BuildJava8"
+        name = "Build - Java 8"
+        params{
+            param("java.home", "%java8.home%")
+        }
+    }, baseBuildType))
+
+    buildType(BuildType({
+        uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef2"
+        extId = "GradleTeamcityPlugin_FunctionalTestJava7"
+        name = "Functional Test - Java 7"
+        failureConditions {
+            executionTimeoutMin = 20
+        }
+        params{
+            param("gradle.tasks", "clean functionalTest")
+        }
+    }, baseBuildType))
+
+    buildType(BuildType({
+        uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef3"
+        extId = "GradleTeamcityPlugin_FunctionalTestJava8"
+        name = "Functional Test - Java 8"
+        failureConditions {
+            executionTimeoutMin = 20
+        }
+        params{
+            param("gradle.tasks", "clean functionalTest")
+            param("java.home", "%java8.home%")
+        }
+    }, baseBuildType))
+
+    buildType(BuildType({
+        uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef4"
+        extId = "GradleTeamcityPlugin_SamplesTestJava7"
+        name = "Samples Test - Java 7"
+        params{
+            param("gradle.tasks", "clean samplesTest")
+        }
+    }, baseBuildType))
+
+    buildType(BuildType({
+        uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef5"
+        extId = "GradleTeamcityPlugin_ReportCodeQuality"
+        name = "Report - Code Quality"
+        params{
+            param("gradle.tasks", "clean build sonarqube")
+            param("gradle.opts", "%sonar.opts%")
+            param("java.home", "%java8.home%")
+        }
+    }, baseBuildType))
 }
