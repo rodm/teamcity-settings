@@ -1,15 +1,23 @@
 
 Example TeamCity Kotlin DSL configuration to build the https://github.com/rodm/gradle-teamcity-plugin[Gradle TeamCity plugin]
 
+The DSL configuration configures a TeamCity project with a number of build configurations that are based on a build
+template:-
+
+* Build and run unit tests using Java 7 and Java 8
+* Build and run functional tests using Java 7 and Java 8
+* Build and run sample tests using Java 7
+* Build and run the unit tests then run the sonarqube task to report on code quality
+
 Follow the steps below to import the settings into a TeamCity server
 
 * Create a VCS Root for the https://github.com/rodm/teamcity-settings[TeamCity settings] project in the 'Root project'
 ** Enter the project URL, https://github.com/rodm/teamcity-settings, in the Fetch URL field
-** Enter the branch, refs/heads/basic, in the Default branch field
+** Enter the branch, refs/heads/template, in the Default branch field
 
 * Create a new sub-project under the Root project
 ** Enter a project name
-** Enter a project ID 'GradleTeamCityPlugin'
+** Enter the project ID 'GradleTeamCityPlugin'
 
 * Select 'Versioned Settings'
 ** Select the option 'Synchronization enabled', select the VCS root created above then select 'use settings from VCS'
