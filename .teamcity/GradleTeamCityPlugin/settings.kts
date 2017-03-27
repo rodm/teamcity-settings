@@ -47,7 +47,6 @@ project {
 
     features {
         versionedSettings {
-            id = "PROJECT_EXT_1"
             mode = VersionedSettings.Mode.ENABLED
             buildSettingsMode = VersionedSettings.BuildSettingsMode.PREFER_SETTINGS_FROM_VCS
             rootExtId = "TeamcitySettings"
@@ -55,7 +54,6 @@ project {
             settingsFormat = VersionedSettings.Format.KOTLIN
         }
         feature {
-            id = "PROJECT_EXT_2"
             type = "JetBrains.SharedResources"
             param("name", "BuildLimit")
             param("type", "quoted")
@@ -102,11 +100,9 @@ project {
 
         features {
             feature {
-                id = "perfmon"
                 type = "perfmon"
             }
             feature {
-                id = "BUILD_EXT_2"
                 type = "JetBrains.SharedResources"
                 param("locks-param", "BuildLimit readLock")
             }
