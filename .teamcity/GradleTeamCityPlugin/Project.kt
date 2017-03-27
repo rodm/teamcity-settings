@@ -13,7 +13,7 @@ object Project : Project({
     extId = "GradleTeamCityPlugin"
     parentId = "_Root"
     name = "Gradle TeamCity Plugin"
-    description = "Gradle plugin for developing TeamCity plugins"
+    description = "Gradle plugin for developing TeamCity plugins [basic]"
 
     vcsRoot(GitVcsRoot({
         uuid = "723408f3-cc0c-42da-b348-dedd4bc030ef"
