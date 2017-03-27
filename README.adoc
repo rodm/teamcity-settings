@@ -1,15 +1,31 @@
 
 Example TeamCity Kotlin DSL configuration to build the https://github.com/rodm/gradle-teamcity-plugin[Gradle TeamCity plugin]
 
-Follow the steps below to import the settings into a TeamCity server
+There are versioned settings for 3 different setups, each is on a different branch, below is the branch name
+and a description of the configuration.
+
+* `basic` - contains a project configuration with a single build configuration that builds and runs the unit tests
+with Java 7
+
+* `builds` - contains a project configuration with a number of build configurations that build and run either unit
+tests or functional tests or sample tests. There is also a code quality build configuration that runs the
+`sonarqube` task. The common build configuration used by all the build configurations is defined using a base build type.
+
+* `template` - contains a project configuration with the same build configurations as the `builds` branch but they
+are based on a build template.
+
+* `master` - contains the latest project configuration with build configurations to build the plugin.
+
+Follow the steps below to import the settings into a TeamCity 10 server
 
 * Create a VCS Root for the https://github.com/rodm/teamcity-settings[TeamCity settings] project in the 'Root project'
 ** Enter the project URL, https://github.com/rodm/teamcity-settings, in the Fetch URL field
-** Enter the branch, refs/heads/basic, in the Default branch field
+** Enter the branch, refs/heads/_branch_, in the Default branch field, where _branch_ is either `basic`, `builds`,
+`template` or `master`.
 
 * Create a new sub-project under the Root project
 ** Enter a project name
-** Enter a project ID 'GradleTeamCityPlugin'
+** Enter the project ID 'GradleTeamCityPlugin'
 
 * Select 'Versioned Settings'
 ** Select the option 'Synchronization enabled', select the VCS root created above then select 'use settings from VCS'
