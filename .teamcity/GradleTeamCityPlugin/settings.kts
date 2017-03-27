@@ -138,6 +138,9 @@ project {
         extId = "GradleTeamcityPlugin_BuildJava8"
         name = "Build - Java 8"
         template(buildTemplate)
+        features {
+            disableSettings("perfmon", "BUILD_EXT_2")
+        }
         params{
             param("java.home", "%java8.home%")
         }
