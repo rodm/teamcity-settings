@@ -32,7 +32,6 @@ version = "10.0"
 project {
     uuid = "2c4c777e-bf5d-4eaf-8e46-eea999fdbd89"
     extId = "GradleTeamCityPlugin"
-    parentId = "_Root"
     name = "Gradle TeamCity Plugin"
     description = "Gradle plugin for developing TeamCity plugins [master]"
 
