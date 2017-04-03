@@ -21,11 +21,12 @@ ext {
     downloadsDir = findProperty('downloads.dir') ?: "$rootDir/downloads"
     serversDir = findProperty('servers.dir') ?: "$rootDir/servers"
     java8Home = findProperty('java8.home') ?: '/opt/jdk1.8.0_121'
+    teamcityServer = findProperty('teamcity.server') ?: 'localhost'
 }
 
 repositories {
     maven {
-        url 'http://localhost:8111/app/dsl-plugins-repository'
+        url "http://${teamcityServer}:8111/app/dsl-plugins-repository"
     }
 }
 
