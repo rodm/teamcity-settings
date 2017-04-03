@@ -30,6 +30,8 @@ repositories {
     }
 }
 
+sourceSets.teamcity.kotlin.filter.include('**/*.kts')
+
 teamcity {
     environments {
         baseHomeDir = project.serversDir
