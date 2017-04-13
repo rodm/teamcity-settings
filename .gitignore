@@ -4,6 +4,9 @@
 build/
 gradle.properties
 
+# Gradle TeamCity plugin
+data/
+
 # IDEA
 .idea/
 *.ipr
