@@ -30,7 +30,7 @@ teamcity {
         }
 
         'teamcity2017.1' {
-            version = '2017.1.3'
+            version = '2017.1.5'
             javaHome = file(java8Home)
         }
     }
