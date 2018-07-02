@@ -33,7 +33,7 @@ project {
     uuid = "2c4c777e-bf5d-4eaf-8e46-eea999fdbd89"
     extId = "GradleTeamCityPlugin"
     name = "Gradle TeamCity Plugin"
-    description = "Gradle plugin for developing TeamCity plugins [master]"
+    description = "Gradle plugin for developing TeamCity plugins [TeamCity-10.0.x]"
 
     val settingsVcs = GitVcsRoot({
         uuid = "723408f3-cc0c-42da-b348-dedd4bc030ef"
