@@ -1,8 +1,10 @@
 
 Example TeamCity Kotlin DSL configuration to build the https://github.com/rodm/gradle-teamcity-plugin[Gradle TeamCity plugin]
 
-There are versioned settings for 3 different setups, each is on a different branch, below is the branch name
+There are versioned settings for multiple different setups, each is on a different branch, below is the branch name
 and a description of the configuration.
+
+* `master` - contains the latest project configuration with build configurations to build the plugin.
 
 * `basic` - contains a project configuration with a single build configuration that builds and runs the unit tests
 with Java 7
@@ -14,9 +16,7 @@ tests or functional tests or sample tests. There is also a code quality build co
 * `template` - contains a project configuration with the same build configurations as the `builds` branch but they
 are based on a build template.
 
-* `master` - contains the latest project configuration with build configurations to build the plugin.
-
-Follow the steps below to import the settings into a TeamCity 10 server
+Follow the steps below to import the settings into a TeamCity 10 Server
 
 * Create a VCS Root for the https://github.com/rodm/teamcity-settings[TeamCity settings] project in the 'Root project'
 ** Enter the project URL, https://github.com/rodm/teamcity-settings, in the Fetch URL field
