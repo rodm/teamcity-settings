@@ -28,11 +28,6 @@ teamcity {
     environments {
         baseHomeDir = project.serversDir
 
-        teamcity10 {
-            version = '10.0.5'
-            javaHome = file(java8Home)
-        }
-
         'teamcity2017.1' {
             version = '2017.1.5'
             javaHome = file(java8Home)
