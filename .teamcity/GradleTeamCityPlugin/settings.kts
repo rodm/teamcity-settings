@@ -1,12 +1,14 @@
 package GradleTeamCityPlugin
 
-import jetbrains.buildServer.configs.kotlin.v10.*
-import jetbrains.buildServer.configs.kotlin.v10.buildSteps.gradle
-import jetbrains.buildServer.configs.kotlin.v10.projectFeatures.VersionedSettings
-import jetbrains.buildServer.configs.kotlin.v10.projectFeatures.versionedSettings
-import jetbrains.buildServer.configs.kotlin.v10.triggers.vcs
-import jetbrains.buildServer.configs.kotlin.v10.vcs.GitVcsRoot
-import jetbrains.buildServer.configs.kotlin.v10.BuildType
+import jetbrains.buildServer.configs.kotlin.v2017_2.version
+import jetbrains.buildServer.configs.kotlin.v2017_2.project
+import jetbrains.buildServer.configs.kotlin.v2017_2.buildSteps.gradle
+import jetbrains.buildServer.configs.kotlin.v2017_2.projectFeatures.VersionedSettings
+import jetbrains.buildServer.configs.kotlin.v2017_2.projectFeatures.versionedSettings
+import jetbrains.buildServer.configs.kotlin.v2017_2.triggers.vcs
+import jetbrains.buildServer.configs.kotlin.v2017_2.vcs.GitVcsRoot
+import jetbrains.buildServer.configs.kotlin.v2017_2.BuildType
+import jetbrains.buildServer.configs.kotlin.v2017_2.Template
 
 /*
 The settings script is an entry point for defining a single
@@ -28,7 +30,7 @@ Subprojects can be defined either in their own settings.kts or by
 calling the subProjects() method in this project.
 */
 
-version = "2017.1"
+version = "2017.2"
 project {
     uuid = "2c4c777e-bf5d-4eaf-8e46-eea999fdbd89"
     extId = "GradleTeamCityPlugin"
@@ -136,12 +138,10 @@ project {
         extId = "GradleTeamcityPlugin_BuildJava8"
         name = "Build - Java 8"
         template(buildTemplate)
-        features {
-            disableSettings("perfmon", "BUILD_EXT_2")
-        }
         params{
             param("java.home", "%java8.home%")
         }
+        disableSettings("perfmon", "BUILD_EXT_2")
     }))
 
     buildType(BuildType({

@@ -21,7 +21,7 @@ repositories {
 sourceSets.teamcity.kotlin.filter.include('**/*.kts')
 
 teamcityConfig {
-    teamcityVersion = '2017.1'
+    teamcityVersion = '2017.2'
 }
 
 teamcity {
