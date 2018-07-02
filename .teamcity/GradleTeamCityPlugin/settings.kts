@@ -40,6 +40,7 @@ project {
         extId = "TeamcitySettings"
         name = "teamcity-settings"
         url = "https://github.com/rodm/teamcity-settings"
+        branch = "refs/heads/TeamCity-10.0.x"
     })
     vcsRoot(settingsVcs)
 
