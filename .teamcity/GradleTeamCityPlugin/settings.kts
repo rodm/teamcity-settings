@@ -30,7 +30,7 @@ Subprojects can be defined either in their own settings.kts or by
 calling the subProjects() method in this project.
 */
 
-version = "2017.2"
+version = "2018.1"
 project {
     uuid = "2c4c777e-bf5d-4eaf-8e46-eea999fdbd89"
     id = "GradleTeamCityPlugin"
