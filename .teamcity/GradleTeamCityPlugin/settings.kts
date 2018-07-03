@@ -1,14 +1,14 @@
 package GradleTeamCityPlugin
 
-import jetbrains.buildServer.configs.kotlin.v2017_2.version
-import jetbrains.buildServer.configs.kotlin.v2017_2.project
-import jetbrains.buildServer.configs.kotlin.v2017_2.buildSteps.gradle
-import jetbrains.buildServer.configs.kotlin.v2017_2.projectFeatures.VersionedSettings
-import jetbrains.buildServer.configs.kotlin.v2017_2.projectFeatures.versionedSettings
-import jetbrains.buildServer.configs.kotlin.v2017_2.triggers.vcs
-import jetbrains.buildServer.configs.kotlin.v2017_2.vcs.GitVcsRoot
-import jetbrains.buildServer.configs.kotlin.v2017_2.BuildType
-import jetbrains.buildServer.configs.kotlin.v2017_2.Template
+import jetbrains.buildServer.configs.kotlin.v2018_1.version
+import jetbrains.buildServer.configs.kotlin.v2018_1.project
+import jetbrains.buildServer.configs.kotlin.v2018_1.buildSteps.gradle
+import jetbrains.buildServer.configs.kotlin.v2018_1.projectFeatures.VersionedSettings
+import jetbrains.buildServer.configs.kotlin.v2018_1.projectFeatures.versionedSettings
+import jetbrains.buildServer.configs.kotlin.v2018_1.triggers.vcs
+import jetbrains.buildServer.configs.kotlin.v2018_1.vcs.GitVcsRoot
+import jetbrains.buildServer.configs.kotlin.v2018_1.BuildType
+import jetbrains.buildServer.configs.kotlin.v2018_1.Template
 
 /*
 The settings script is an entry point for defining a single
@@ -33,13 +33,13 @@ calling the subProjects() method in this project.
 version = "2018.1"
 project {
     uuid = "2c4c777e-bf5d-4eaf-8e46-eea999fdbd89"
-    id = "GradleTeamCityPlugin"
+    id("GradleTeamCityPlugin")
     name = "Gradle TeamCity Plugin"
     description = "Gradle plugin for developing TeamCity plugins [master]"
 
     val settingsVcs = GitVcsRoot({
         uuid = "723408f3-cc0c-42da-b348-dedd4bc030ef"
-        id = "TeamcitySettings"
+        id("TeamcitySettings")
         name = "teamcity-settings"
         url = "https://github.com/rodm/teamcity-settings"
     })
@@ -65,7 +65,7 @@ project {
 
     val vcs = GitVcsRoot({
         uuid = "ac063d49-90e5-4baf-84b3-7f307586ae0e"
-        id = "GradleTeamcityPlugin"
+        id("GradleTeamcityPlugin")
         name = "gradle-teamcity-plugin"
         url = "https://github.com/rodm/gradle-teamcity-plugin.git"
     })
@@ -73,7 +73,7 @@ project {
 
     val buildTemplate = Template({
         uuid = "7f359c83-e4f3-4053-b9d6-d403a626b560"
-        id = "GradleTeamCityPlugin_Build"
+        id("GradleTeamCityPlugin_Build")
         name = "build"
 
         vcs {
@@ -128,16 +128,16 @@ project {
 
     buildType(BuildType({
         uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef0"
-        id = "GradleTeamcityPlugin_BuildJava7"
+        id("GradleTeamcityPlugin_BuildJava7")
         name = "Build - Java 7"
-        template(buildTemplate)
+        templates(buildTemplate)
     }))
 
     buildType(BuildType({
         uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef1"
-        id = "GradleTeamcityPlugin_BuildJava8"
+        id("GradleTeamcityPlugin_BuildJava8")
         name = "Build - Java 8"
-        template(buildTemplate)
+        templates(buildTemplate)
         params{
             param("java.home", "%java8.home%")
         }
@@ -146,9 +146,9 @@ project {
 
     buildType(BuildType({
         uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef2"
-        id = "GradleTeamcityPlugin_FunctionalTestJava7"
+        id("GradleTeamcityPlugin_FunctionalTestJava7")
         name = "Functional Test - Java 7"
-        template(buildTemplate)
+        templates(buildTemplate)
         failureConditions {
             executionTimeoutMin = 20
         }
@@ -159,9 +159,9 @@ project {
 
     buildType(BuildType({
         uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef3"
-        id = "GradleTeamcityPlugin_FunctionalTestJava8"
+        id("GradleTeamcityPlugin_FunctionalTestJava8")
         name = "Functional Test - Java 8"
-        template(buildTemplate)
+        templates(buildTemplate)
         failureConditions {
             executionTimeoutMin = 20
         }
@@ -173,9 +173,9 @@ project {
 
     buildType(BuildType({
         uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef4"
-        id = "GradleTeamcityPlugin_SamplesTestJava7"
+        id("GradleTeamcityPlugin_SamplesTestJava7")
         name = "Samples Test - Java 7"
-        template(buildTemplate)
+        templates(buildTemplate)
         params{
             param("gradle.tasks", "clean samplesTest")
         }
@@ -183,9 +183,9 @@ project {
 
     buildType(BuildType({
         uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef5"
-        id = "GradleTeamcityPlugin_ReportCodeQuality"
+        id("GradleTeamcityPlugin_ReportCodeQuality")
         name = "Report - Code Quality"
-        template(buildTemplate)
+        templates(buildTemplate)
         params{
             param("gradle.tasks", "clean build sonarqube")
             param("gradle.opts", "%sonar.opts%")
