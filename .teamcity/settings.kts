@@ -1,10 +1,7 @@
-package GradleTeamCityPlugin
 
 import jetbrains.buildServer.configs.kotlin.v2018_1.version
 import jetbrains.buildServer.configs.kotlin.v2018_1.project
 import jetbrains.buildServer.configs.kotlin.v2018_1.buildSteps.gradle
-import jetbrains.buildServer.configs.kotlin.v2018_1.projectFeatures.VersionedSettings
-import jetbrains.buildServer.configs.kotlin.v2018_1.projectFeatures.versionedSettings
 import jetbrains.buildServer.configs.kotlin.v2018_1.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2018_1.vcs.GitVcsRoot
 import jetbrains.buildServer.configs.kotlin.v2018_1.BuildType
@@ -32,13 +29,9 @@ calling the subProjects() method in this project.
 
 version = "2018.1"
 project {
-    uuid = "2c4c777e-bf5d-4eaf-8e46-eea999fdbd89"
-    id("GradleTeamCityPlugin")
-    name = "Gradle TeamCity Plugin"
     description = "Gradle plugin for developing TeamCity plugins [master]"
 
     val settingsVcs = GitVcsRoot({
-        uuid = "723408f3-cc0c-42da-b348-dedd4bc030ef"
         id("TeamcitySettings")
         name = "teamcity-settings"
         url = "https://github.com/rodm/teamcity-settings"
@@ -46,14 +39,14 @@ project {
     vcsRoot(settingsVcs)
 
     features {
-        versionedSettings {
-            id = "PROJECT_EXT_1"
-            mode = VersionedSettings.Mode.ENABLED
-            buildSettingsMode = VersionedSettings.BuildSettingsMode.PREFER_SETTINGS_FROM_VCS
-            rootExtId = "TeamcitySettings"
-            showChanges = true
-            settingsFormat = VersionedSettings.Format.KOTLIN
-        }
+//        versionedSettings {
+//            id = "PROJECT_EXT_1"
+//            mode = VersionedSettings.Mode.ENABLED
+//            buildSettingsMode = VersionedSettings.BuildSettingsMode.PREFER_SETTINGS_FROM_VCS
+//            rootExtId = "TeamcitySettings"
+//            showChanges = true
+//            settingsFormat = VersionedSettings.Format.KOTLIN
+//        }
         feature {
             id = "PROJECT_EXT_2"
             type = "JetBrains.SharedResources"
@@ -64,7 +57,6 @@ project {
     }
 
     val vcs = GitVcsRoot({
-        uuid = "ac063d49-90e5-4baf-84b3-7f307586ae0e"
         id("GradleTeamcityPlugin")
         name = "gradle-teamcity-plugin"
         url = "https://github.com/rodm/gradle-teamcity-plugin.git"
@@ -72,7 +64,6 @@ project {
     vcsRoot(vcs)
 
     val buildTemplate = Template({
-        uuid = "7f359c83-e4f3-4053-b9d6-d403a626b560"
         id("GradleTeamCityPlugin_Build")
         name = "build"
 
@@ -127,14 +118,12 @@ project {
     template(buildTemplate)
 
     buildType(BuildType({
-        uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef0"
         id("GradleTeamcityPlugin_BuildJava7")
         name = "Build - Java 7"
         templates(buildTemplate)
     }))
 
     buildType(BuildType({
-        uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef1"
         id("GradleTeamcityPlugin_BuildJava8")
         name = "Build - Java 8"
         templates(buildTemplate)
@@ -145,7 +134,6 @@ project {
     }))
 
     buildType(BuildType({
-        uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef2"
         id("GradleTeamcityPlugin_FunctionalTestJava7")
         name = "Functional Test - Java 7"
         templates(buildTemplate)
@@ -158,7 +146,6 @@ project {
     }))
 
     buildType(BuildType({
-        uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef3"
         id("GradleTeamcityPlugin_FunctionalTestJava8")
         name = "Functional Test - Java 8"
         templates(buildTemplate)
@@ -172,7 +159,6 @@ project {
     }))
 
     buildType(BuildType({
-        uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef4"
         id("GradleTeamcityPlugin_SamplesTestJava7")
         name = "Samples Test - Java 7"
         templates(buildTemplate)
@@ -182,7 +168,6 @@ project {
     }))
 
     buildType(BuildType({
-        uuid = "b9b0cbf7-1665-4fe5-a24d-956280379ef5"
         id("GradleTeamcityPlugin_ReportCodeQuality")
         name = "Report - Code Quality"
         templates(buildTemplate)
