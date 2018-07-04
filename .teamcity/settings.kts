@@ -5,6 +5,7 @@ import jetbrains.buildServer.configs.kotlin.v2018_1.buildSteps.gradle
 import jetbrains.buildServer.configs.kotlin.v2018_1.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2018_1.vcs.GitVcsRoot
 import jetbrains.buildServer.configs.kotlin.v2018_1.BuildType
+import jetbrains.buildServer.configs.kotlin.v2018_1.DslContext
 import jetbrains.buildServer.configs.kotlin.v2018_1.Template
 import jetbrains.buildServer.configs.kotlin.v2018_1.buildSteps.script
 
@@ -88,8 +89,8 @@ project {
             vcs {
                 id = "TRIGGER_1"
                 triggerRules = """
-                    +:root=TeamcitySettings;:**
-                    +:root=GradleTeamcityPlugin:**
+                    +:root=${DslContext.projectId.value}_TeamcitySettings;:**
+                    +:root=${DslContext.projectId.absoluteId}_GradleTeamcityPlugin:**
                  """.trimIndent()
             }
         }
