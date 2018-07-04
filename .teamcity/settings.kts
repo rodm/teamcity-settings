@@ -188,6 +188,31 @@ project {
     }))
 
     buildType(BuildType({
+        id("FunctionalTestJava10")
+        name = "Functional Test - Java 10"
+        templates(buildTemplate)
+        failureConditions {
+            executionTimeoutMin = 20
+        }
+        params{
+            param("gradle.tasks", "clean functionalTest")
+            param("gradle.version", "4.7")
+            param("java.home", "%java10.home%")
+        }
+        steps {
+            script {
+                id = "RUNNER_2"
+                scriptContent = """
+                #!/bin/sh
+                JAVA_HOME=%java8.home% ./gradlew wrapper --gradle-version=%gradle.version%
+                JAVA_HOME=%java.home% ./gradlew --version
+                """.trimIndent()
+            }
+            stepsOrder = arrayListOf("RUNNER_2", "RUNNER_1")
+        }
+    }))
+
+    buildType(BuildType({
         id("GradleTeamcityPlugin_SamplesTestJava7")
         name = "Samples Test - Java 7"
         templates(buildTemplate)
