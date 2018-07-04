@@ -6,6 +6,7 @@ import jetbrains.buildServer.configs.kotlin.v2018_1.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2018_1.vcs.GitVcsRoot
 import jetbrains.buildServer.configs.kotlin.v2018_1.BuildType
 import jetbrains.buildServer.configs.kotlin.v2018_1.Template
+import jetbrains.buildServer.configs.kotlin.v2018_1.buildSteps.script
 
 /*
 The settings script is an entry point for defining a single
@@ -155,6 +156,31 @@ project {
         params{
             param("gradle.tasks", "clean functionalTest")
             param("java.home", "%java8.home%")
+        }
+    }))
+
+    buildType(BuildType({
+        id("GradleTeamCityPlugin_FunctionalTestJava9")
+        name = "Functional Test - Java 9"
+        templates(buildTemplate)
+        failureConditions {
+            executionTimeoutMin = 20
+        }
+        params{
+            param("gradle.tasks", "clean functionalTest")
+            param("gradle.version", "4.3")
+            param("java.home", "%java9.home%")
+        }
+        steps {
+            script {
+                id = "RUNNER_2"
+                scriptContent = """
+                #!/bin/sh
+                JAVA_HOME=%java8.home% ./gradlew wrapper --gradle-version=%gradle.version%
+                JAVA_HOME=%java.home% ./gradlew --version
+                """.trimIndent()
+            }
+            stepsOrder = arrayListOf("RUNNER_2", "RUNNER_1")
         }
     }))
 
