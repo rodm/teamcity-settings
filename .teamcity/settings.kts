@@ -8,6 +8,7 @@ import jetbrains.buildServer.configs.kotlin.v2018_1.BuildType
 import jetbrains.buildServer.configs.kotlin.v2018_1.DslContext
 import jetbrains.buildServer.configs.kotlin.v2018_1.Template
 import jetbrains.buildServer.configs.kotlin.v2018_1.buildSteps.script
+import jetbrains.buildServer.configs.kotlin.v2018_1.triggers.VcsTrigger.QuietPeriodMode.USE_DEFAULT
 
 /*
 The settings script is an entry point for defining a single
@@ -88,6 +89,7 @@ project {
         triggers {
             vcs {
                 id = "TRIGGER_1"
+                quietPeriodMode = USE_DEFAULT
                 triggerRules = """
                     +:root=${DslContext.projectId.value}_TeamcitySettings;:**
                     +:root=${DslContext.projectId.absoluteId}_GradleTeamcityPlugin:**
