@@ -91,7 +91,7 @@ project {
                 id = "TRIGGER_1"
                 quietPeriodMode = USE_DEFAULT
                 triggerRules = """
-                    +:root=${DslContext.projectId.value}_TeamcitySettings;:**
+                    +:root=${DslContext.projectId.absoluteId}_TeamcitySettings;:**
                     +:root=${DslContext.projectId.absoluteId}_GradleTeamcityPlugin:**
                  """.trimIndent()
             }
