@@ -67,7 +67,7 @@ project {
     vcsRoot(vcs)
 
     val buildTemplate = Template({
-        id("GradleTeamCityPlugin_Build")
+        id("Build")
         name = "build"
 
         vcs {
@@ -122,13 +122,13 @@ project {
     template(buildTemplate)
 
     buildType(BuildType({
-        id("GradleTeamcityPlugin_BuildJava7")
+        id("BuildJava7")
         name = "Build - Java 7"
         templates(buildTemplate)
     }))
 
     buildType(BuildType({
-        id("GradleTeamcityPlugin_BuildJava8")
+        id("BuildJava8")
         name = "Build - Java 8"
         templates(buildTemplate)
         params{
@@ -138,7 +138,7 @@ project {
     }))
 
     buildType(BuildType({
-        id("GradleTeamcityPlugin_FunctionalTestJava7")
+        id("FunctionalTestJava7")
         name = "Functional Test - Java 7"
         templates(buildTemplate)
         failureConditions {
@@ -150,7 +150,7 @@ project {
     }))
 
     buildType(BuildType({
-        id("GradleTeamcityPlugin_FunctionalTestJava8")
+        id("FunctionalTestJava8")
         name = "Functional Test - Java 8"
         templates(buildTemplate)
         failureConditions {
@@ -163,7 +163,7 @@ project {
     }))
 
     buildType(BuildType({
-        id("GradleTeamCityPlugin_FunctionalTestJava9")
+        id("FunctionalTestJava9")
         name = "Functional Test - Java 9"
         templates(buildTemplate)
         failureConditions {
@@ -213,7 +213,7 @@ project {
     }))
 
     buildType(BuildType({
-        id("GradleTeamcityPlugin_SamplesTestJava7")
+        id("SamplesTestJava7")
         name = "Samples Test - Java 7"
         templates(buildTemplate)
         params{
@@ -222,7 +222,7 @@ project {
     }))
 
     buildType(BuildType({
-        id("GradleTeamcityPlugin_ReportCodeQuality")
+        id("ReportCodeQuality")
         name = "Report - Code Quality"
         templates(buildTemplate)
         params{
