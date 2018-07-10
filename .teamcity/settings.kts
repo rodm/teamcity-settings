@@ -138,81 +138,6 @@ project {
     }))
 
     buildType(BuildType({
-        id("FunctionalTestJava7")
-        name = "Functional Test - Java 7"
-        templates(buildTemplate)
-        failureConditions {
-            executionTimeoutMin = 20
-        }
-        params{
-            param("gradle.tasks", "clean functionalTest")
-        }
-    }))
-
-    buildType(BuildType({
-        id("FunctionalTestJava8")
-        name = "Functional Test - Java 8"
-        templates(buildTemplate)
-        failureConditions {
-            executionTimeoutMin = 20
-        }
-        params{
-            param("gradle.tasks", "clean functionalTest")
-            param("java.home", "%java8.home%")
-        }
-    }))
-
-    buildType(BuildType({
-        id("FunctionalTestJava9")
-        name = "Functional Test - Java 9"
-        templates(buildTemplate)
-        failureConditions {
-            executionTimeoutMin = 20
-        }
-        params{
-            param("gradle.tasks", "clean functionalTest")
-            param("gradle.version", "4.3")
-            param("java.home", "%java9.home%")
-        }
-        steps {
-            script {
-                id = "RUNNER_2"
-                scriptContent = """
-                #!/bin/sh
-                JAVA_HOME=%java8.home% ./gradlew wrapper --gradle-version=%gradle.version%
-                JAVA_HOME=%java.home% ./gradlew --version
-                """.trimIndent()
-            }
-            stepsOrder = arrayListOf("RUNNER_2", "RUNNER_1")
-        }
-    }))
-
-    buildType(BuildType({
-        id("FunctionalTestJava10")
-        name = "Functional Test - Java 10"
-        templates(buildTemplate)
-        failureConditions {
-            executionTimeoutMin = 20
-        }
-        params{
-            param("gradle.tasks", "clean functionalTest")
-            param("gradle.version", "4.7")
-            param("java.home", "%java10.home%")
-        }
-        steps {
-            script {
-                id = "RUNNER_2"
-                scriptContent = """
-                #!/bin/sh
-                JAVA_HOME=%java8.home% ./gradlew wrapper --gradle-version=%gradle.version%
-                JAVA_HOME=%java.home% ./gradlew --version
-                """.trimIndent()
-            }
-            stepsOrder = arrayListOf("RUNNER_2", "RUNNER_1")
-        }
-    }))
-
-    buildType(BuildType({
         id("SamplesTestJava7")
         name = "Samples Test - Java 7"
         templates(buildTemplate)
@@ -231,4 +156,52 @@ project {
             param("java.home", "%java8.home%")
         }
     }))
+
+    val configurations = listOf(
+            BuildParameters("Functional Test - Java 7"),
+            BuildParameters("Functional Test - Java 8", "%java8.home%"),
+            BuildParameters("Functional Test - Java 9", "%java9.home%", "4.3"),
+            BuildParameters("Functional Test - Java 10", "%java10.home%", "4.7")
+    )
+    configurations.forEach { buildParameters ->
+        buildType(TestBuildType(buildParameters, buildTemplate))
+    }
+}
+
+data class BuildParameters(val name: String, val javaHome: String? = null, val gradleVersion: String? = null)
+
+class TestBuildType(buildParameters: BuildParameters, buildTemplate: Template) : BuildType() {
+    init {
+        id(buildParameters.name.replace("\\W".toRegex(), "").capitalize())
+        name = buildParameters.name
+        templates(buildTemplate)
+
+        params {
+            param("gradle.tasks", "clean functionalTest")
+            if (buildParameters.javaHome != null) {
+                param("java.home", buildParameters.javaHome)
+            }
+        }
+        
+        if (buildParameters.gradleVersion != null) {
+            params {
+                param("gradle.version", buildParameters.gradleVersion)
+            }
+            steps {
+                script {
+                    id = "RUNNER_2"
+                    scriptContent = """
+                #!/bin/sh
+                JAVA_HOME=%java8.home% ./gradlew wrapper --gradle-version=%gradle.version%
+                JAVA_HOME=%java.home% ./gradlew --version
+                """.trimIndent()
+                }
+                stepsOrder = arrayListOf("RUNNER_2", "RUNNER_1")
+            }
+        }
+
+        failureConditions {
+            executionTimeoutMin = 20
+        }
+    }
 }
