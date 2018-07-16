@@ -6,6 +6,7 @@ import jetbrains.buildServer.configs.kotlin.v2018_1.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2018_1.vcs.GitVcsRoot
 import jetbrains.buildServer.configs.kotlin.v2018_1.BuildType
 import jetbrains.buildServer.configs.kotlin.v2018_1.DslContext
+import jetbrains.buildServer.configs.kotlin.v2018_1.Project
 import jetbrains.buildServer.configs.kotlin.v2018_1.Template
 import jetbrains.buildServer.configs.kotlin.v2018_1.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.v2018_1.triggers.VcsTrigger.QuietPeriodMode.USE_DEFAULT
@@ -157,24 +158,46 @@ project {
         }
     }))
 
-    val configurations = listOf(
-            BuildParameters("Functional Test - Java 7"),
-            BuildParameters("Functional Test - Java 8", "%java8.home%"),
-            BuildParameters("Functional Test - Java 9", "%java9.home%", "4.3"),
-            BuildParameters("Functional Test - Java 10", "%java10.home%", "4.7")
-    )
-    configurations.forEach { buildParameters ->
-        buildType(TestBuildType(buildParameters, buildTemplate))
+    configurations {
+        template(buildTemplate)
+        configuration("Functional Test - Java 7")
+        configuration("Functional Test - Java 8", "%java8.home%")
+        configuration("Functional Test - Java 9", "%java9.home%", "4.3")
+        configuration("Functional Test - Java 10", "%java10.home%", "4.7")
+    }
+}
+
+fun Project.configurations(init: Configurations.() -> Unit = {}) {
+    val configurations = Configurations()
+    configurations.init()
+
+    val templates = configurations.templates.toTypedArray()
+    configurations.configurations.forEach { configuration ->
+        buildType(TestBuildType(configuration, templates))
+    }
+}
+
+class Configurations {
+    val configurations = arrayListOf<BuildParameters>()
+    val templates = arrayListOf<Template>()
+
+    fun configuration(name: String, javaHome: String? = null, gradleVersion: String? = null) {
+        val params = BuildParameters(name, javaHome, gradleVersion)
+        configurations.add(params)
+    }
+
+    fun template(template: Template) {
+        templates.add(template)
     }
 }
 
 data class BuildParameters(val name: String, val javaHome: String? = null, val gradleVersion: String? = null)
 
-class TestBuildType(buildParameters: BuildParameters, buildTemplate: Template) : BuildType() {
+class TestBuildType(buildParameters: BuildParameters, buildTemplates: Array<Template>) : BuildType() {
     init {
         id(buildParameters.name.replace("\\W".toRegex(), "").capitalize())
         name = buildParameters.name
-        templates(buildTemplate)
+        templates(*buildTemplates)
 
         params {
             param("gradle.tasks", "clean functionalTest")
