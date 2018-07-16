@@ -34,3 +34,13 @@ and set the format to 'Kotlin' and click the Apply button.
 TeamCity should update the project and create a build configuration.
 
 To make changes fork the project and update the VCS root URLs to use your own repository.
+
+== Resources
+
+Kotlin Configuration Scripts series on the TeamCity blog.
+
+. https://blog.jetbrains.com/teamcity/2016/11/kotlin-configuration-scripts-an-introduction/[An Introduction]
+. https://blog.jetbrains.com/teamcity/2016/12/kotlin-configuration-scripts-working-with-configuration-scripts/[Working with Configuration Scripts]
+. https://blog.jetbrains.com/teamcity/2017/01/kotlin-configuration-scripts-creating-configuration-scripts-dynamically/[Creating Configuration Scripts Dynamically]
+. https://blog.jetbrains.com/teamcity/2017/02/kotlin-configuration-scripts-extending-the-teamcity-dsl/[Extending the TeamCity DSL]
+. https://blog.jetbrains.com/teamcity/2017/02/kotlin-configuration-scripts-testing-configuration-scripts/[Testing Configuration Scripts]
