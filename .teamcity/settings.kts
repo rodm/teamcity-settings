@@ -122,48 +122,110 @@ project {
     })
     template(buildTemplate)
 
-    buildType(BuildType({
-        id("BuildJava7")
-        name = "Build - Java 7"
-        templates(buildTemplate)
-    }))
+    pipeline {
+        stage ("Build") {
+            + BuildType({
+                id("BuildJava7")
+                name = "Build - Java 7"
+                templates(buildTemplate)
+            })
 
-    buildType(BuildType({
-        id("BuildJava8")
-        name = "Build - Java 8"
-        templates(buildTemplate)
-        params{
-            param("java.home", "%java8.home%")
+            + BuildType({
+                id("BuildJava8")
+                name = "Build - Java 8"
+                templates(buildTemplate)
+                params{
+                    param("java.home", "%java8.home%")
+                }
+                disableSettings("perfmon", "BUILD_EXT_2")
+            })
+
+            + BuildType({
+                id("ReportCodeQuality")
+                name = "Report - Code Quality"
+                templates(buildTemplate)
+                params{
+                    param("gradle.tasks", "clean build sonarqube")
+                    param("gradle.opts", "%sonar.opts%")
+                    param("java.home", "%java8.home%")
+                }
+            })
         }
-        disableSettings("perfmon", "BUILD_EXT_2")
-    }))
+        stage ("Functional tests") {
 
-    buildType(BuildType({
-        id("SamplesTestJava7")
-        name = "Samples Test - Java 7"
-        templates(buildTemplate)
-        params{
-            param("gradle.tasks", "clean samplesTest")
+            configurations {
+                template(buildTemplate)
+                configuration("Functional Test - Java 7")
+                configuration("Functional Test - Java 8", "%java8.home%")
+                configuration("Functional Test - Java 9", "%java9.home%", "4.3")
+                configuration("Functional Test - Java 10", "%java10.home%", "4.7")
+            }
+
+            + BuildType({
+                id("SamplesTestJava7")
+                name = "Samples Test - Java 7"
+                templates(buildTemplate)
+                params{
+                    param("gradle.tasks", "clean samplesTest")
+                }
+            })
         }
-    }))
 
-    buildType(BuildType({
-        id("ReportCodeQuality")
-        name = "Report - Code Quality"
-        templates(buildTemplate)
-        params{
-            param("gradle.tasks", "clean build sonarqube")
-            param("gradle.opts", "%sonar.opts%")
-            param("java.home", "%java8.home%")
+        stage ("Publish") {
+            + BuildType({
+                id("DummyPublish")
+                name = "Publish to plugin repository"
+            })
         }
-    }))
+    }
+}
 
-    configurations {
-        template(buildTemplate)
-        configuration("Functional Test - Java 7")
-        configuration("Functional Test - Java 8", "%java8.home%")
-        configuration("Functional Test - Java 9", "%java9.home%", "4.3")
-        configuration("Functional Test - Java 10", "%java10.home%", "4.7")
+fun Project.pipeline(init: Pipeline.() -> Unit = {}) {
+    val pipeline = Pipeline()
+    pipeline.init()
+
+    pipeline.stages.forEach { stage ->
+        stage.buildTypes.forEach { buildType ->
+            this.buildType(buildType)
+        }
+    }
+}
+
+class Pipeline {
+    val stages = arrayListOf<Stage>()
+
+    fun stage(name: String, init: Stage.() -> Unit) {
+        val newStage = Stage()
+        newStage.init()
+        stages.lastOrNull()?.let { previousStage ->
+            newStage.buildTypes.forEach {
+                it.dependencies {
+                    for (dependency in previousStage.buildTypes) {
+                        snapshot(dependency) {
+                        }
+                    }
+                }
+            }
+        }
+        stages.add(newStage)
+    }
+}
+
+class Stage {
+    val buildTypes = hashSetOf<BuildType>()
+
+    operator fun BuildType.unaryPlus() {
+        buildTypes.add(this)
+    }
+
+    fun configurations(init: Configurations.() -> Unit) {
+        val configurations = Configurations()
+        configurations.init()
+
+        val templates = configurations.templates.toTypedArray()
+        configurations.configurations.forEach { configuration ->
+            buildTypes.add(TestBuildType(configuration, templates))
+        }
     }
 }
 
