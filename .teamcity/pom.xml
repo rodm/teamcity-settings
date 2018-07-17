@@ -27,6 +27,11 @@
         <enabled>true</enabled>
       </snapshots>
     </repository>
+    <repository>
+      <id>bintray-rodm-maven</id>
+      <name>bintray</name>
+      <url>https://dl.bintray.com/rodm/maven</url>
+    </repository>
   </repositories>
 
   <pluginRepositories>
@@ -98,6 +103,12 @@
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-script-runtime</artifactId>
       <version>${kotlin.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.github.rodm</groupId>
+      <artifactId>teamcity-dsl-extensions</artifactId>
+      <version>0.1</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>
