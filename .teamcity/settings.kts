@@ -77,7 +77,7 @@ project {
 
         steps {
             gradle {
-                id = "RUNNER_1"
+                id = "GRADLE_BUILD"
                 tasks = "%gradle.tasks%"
                 gradleParams = "%gradle.opts%"
                 useGradleWrapper = true
@@ -138,7 +138,6 @@ project {
                 params{
                     param("gradle.tasks", "clean build sonarqube")
                     param("gradle.opts", "%sonar.opts%")
-                    param("java.home", "%java8.home%")
                 }
             })
         }
@@ -155,7 +154,6 @@ project {
                 templates(buildTemplate)
                 params {
                     param("gradle.tasks", "clean functionalTest")
-                    param("java.home", "%java8.home%")
                 }
             })
 
@@ -192,8 +190,8 @@ project {
             })
 
             build ({
-                id("SamplesTestJava7")
-                name = "Samples Test - Java 7"
+                id("SamplesTestJava8")
+                name = "Samples Test - Java 8"
                 templates(buildTemplate)
                 params{
                     param("gradle.tasks", "clean samplesTest")
