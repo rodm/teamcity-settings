@@ -117,7 +117,7 @@ project {
         params {
             param("gradle.tasks", "clean build")
             param("gradle.opts", "")
-            param("java.home", "%java7.home%")
+            param("java.home", "%java8.home%")
         }
     })
     template(buildTemplate)
@@ -125,18 +125,9 @@ project {
     pipeline {
         stage ("Build") {
             build ({
-                id("BuildJava7")
-                name = "Build - Java 7"
-                templates(buildTemplate)
-            })
-
-            build ({
                 id("BuildJava8")
                 name = "Build - Java 8"
                 templates(buildTemplate)
-                params{
-                    param("java.home", "%java8.home%")
-                }
                 disableSettings("perfmon", "BUILD_EXT_2")
             })
 
@@ -157,15 +148,6 @@ project {
                     executionTimeoutMin = 20
                 }
             }
-
-            build ({
-                id("FunctionalTestJava7")
-                name = "Functional Test - Java 7"
-                templates(buildTemplate)
-                params {
-                    param("gradle.tasks", "clean functionalTest")
-                }
-            })
 
             build ({
                 id("FunctionalTestJava8")
