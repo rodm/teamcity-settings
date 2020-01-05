@@ -29,7 +29,7 @@ teamcity {
         baseHomeDir = project.serversDir
 
         'teamcity2018.1' {
-            version = '2018.1'
+            version = '2018.1.5'
             javaHome = file(java8Home)
         }
     }
