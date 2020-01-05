@@ -4,16 +4,12 @@ import jetbrains.buildServer.configs.kotlin.v2018_1.project
 import jetbrains.buildServer.configs.kotlin.v2018_1.buildSteps.gradle
 import jetbrains.buildServer.configs.kotlin.v2018_1.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2018_1.vcs.GitVcsRoot
-import jetbrains.buildServer.configs.kotlin.v2018_1.BuildType
 import jetbrains.buildServer.configs.kotlin.v2018_1.DslContext
-import jetbrains.buildServer.configs.kotlin.v2018_1.Project
 import jetbrains.buildServer.configs.kotlin.v2018_1.Template
 import jetbrains.buildServer.configs.kotlin.v2018_1.triggers.VcsTrigger.QuietPeriodMode.USE_DEFAULT
 
-import com.github.rodm.teamcity.gradle.configurations
-import com.github.rodm.teamcity.gradle.BuildParameters
-import com.github.rodm.teamcity.gradle.Configurations
-import com.github.rodm.teamcity.gradle.TestBuildType
+import com.github.rodm.teamcity.pipeline
+import com.github.rodm.teamcity.gradle.switchGradleBuildStep
 
 /*
 The settings script is an entry point for defining a single
@@ -128,13 +124,13 @@ project {
 
     pipeline {
         stage ("Build") {
-            + BuildType({
+            build ({
                 id("BuildJava7")
                 name = "Build - Java 7"
                 templates(buildTemplate)
             })
 
-            + BuildType({
+            build ({
                 id("BuildJava8")
                 name = "Build - Java 8"
                 templates(buildTemplate)
@@ -144,7 +140,7 @@ project {
                 disableSettings("perfmon", "BUILD_EXT_2")
             })
 
-            + BuildType({
+            build ({
                 id("ReportCodeQuality")
                 name = "Report - Code Quality"
                 templates(buildTemplate)
@@ -156,16 +152,64 @@ project {
             })
         }
         stage ("Functional tests") {
-
-            configurations {
-                template(buildTemplate)
-                configuration("Functional Test - Java 7")
-                configuration("Functional Test - Java 8", "%java8.home%")
-                configuration("Functional Test - Java 9", "%java9.home%", "4.3")
-                configuration("Functional Test - Java 10", "%java10.home%", "4.7")
+            defaults {
+                failureConditions {
+                    executionTimeoutMin = 20
+                }
             }
 
-            + BuildType({
+            build ({
+                id("FunctionalTestJava7")
+                name = "Functional Test - Java 7"
+                templates(buildTemplate)
+                params {
+                    param("gradle.tasks", "clean functionalTest")
+                }
+            })
+
+            build ({
+                id("FunctionalTestJava8")
+                name = "Functional Test - Java 8"
+                templates(buildTemplate)
+                params {
+                    param("gradle.tasks", "clean functionalTest")
+                    param("java.home", "%java8.home%")
+                }
+            })
+
+            build ({
+                id("FunctionalTestJava9")
+                name = "Functional Test - Java 9"
+                templates(buildTemplate)
+                params {
+                    param("gradle.tasks", "clean functionalTest")
+                    param("gradle.version", "4.3")
+                    param("java.home", "%java9.home%")
+                }
+
+                steps {
+                    switchGradleBuildStep()
+                    stepsOrder = arrayListOf("SWITCH_GRADLE", "GRADLE_BUILD")
+                }
+            })
+
+            build ({
+                id("FunctionalTestJava10")
+                name = "Functional Test - Java 10"
+                templates(buildTemplate)
+                params {
+                    param("gradle.tasks", "clean functionalTest")
+                    param("gradle.version", "4.7")
+                    param("java.home", "%java10.home%")
+                }
+
+                steps {
+                    switchGradleBuildStep()
+                    stepsOrder = arrayListOf("SWITCH_GRADLE", "GRADLE_BUILD")
+                }
+            })
+
+            build ({
                 id("SamplesTestJava7")
                 name = "Samples Test - Java 7"
                 templates(buildTemplate)
@@ -176,59 +220,10 @@ project {
         }
 
         stage ("Publish") {
-            + BuildType({
+            build ({
                 id("DummyPublish")
                 name = "Publish to plugin repository"
             })
-        }
-    }
-}
-
-fun Project.pipeline(init: Pipeline.() -> Unit = {}) {
-    val pipeline = Pipeline()
-    pipeline.init()
-
-    pipeline.stages.forEach { stage ->
-        stage.buildTypes.forEach { buildType ->
-            this.buildType(buildType)
-        }
-    }
-}
-
-class Pipeline {
-    val stages = arrayListOf<Stage>()
-
-    fun stage(name: String, init: Stage.() -> Unit) {
-        val newStage = Stage()
-        newStage.init()
-        stages.lastOrNull()?.let { previousStage ->
-            newStage.buildTypes.forEach {
-                it.dependencies {
-                    for (dependency in previousStage.buildTypes) {
-                        snapshot(dependency) {
-                        }
-                    }
-                }
-            }
-        }
-        stages.add(newStage)
-    }
-}
-
-class Stage {
-    val buildTypes = hashSetOf<BuildType>()
-
-    operator fun BuildType.unaryPlus() {
-        buildTypes.add(this)
-    }
-
-    fun configurations(init: Configurations.() -> Unit) {
-        val configurations = Configurations()
-        configurations.init()
-
-        val templates = configurations.templates.toTypedArray()
-        configurations.configurations.forEach { configuration ->
-            buildTypes.add(TestBuildType(configuration, templates))
         }
     }
 }
