@@ -1,12 +1,12 @@
 
-import jetbrains.buildServer.configs.kotlin.v2018_1.version
-import jetbrains.buildServer.configs.kotlin.v2018_1.project
-import jetbrains.buildServer.configs.kotlin.v2018_1.buildSteps.gradle
-import jetbrains.buildServer.configs.kotlin.v2018_1.triggers.vcs
-import jetbrains.buildServer.configs.kotlin.v2018_1.vcs.GitVcsRoot
-import jetbrains.buildServer.configs.kotlin.v2018_1.DslContext
-import jetbrains.buildServer.configs.kotlin.v2018_1.Template
-import jetbrains.buildServer.configs.kotlin.v2018_1.triggers.VcsTrigger.QuietPeriodMode.USE_DEFAULT
+import jetbrains.buildServer.configs.kotlin.v2018_2.version
+import jetbrains.buildServer.configs.kotlin.v2018_2.project
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildSteps.gradle
+import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.vcs
+import jetbrains.buildServer.configs.kotlin.v2018_2.vcs.GitVcsRoot
+import jetbrains.buildServer.configs.kotlin.v2018_2.DslContext
+import jetbrains.buildServer.configs.kotlin.v2018_2.Template
+import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.VcsTrigger.QuietPeriodMode.USE_DEFAULT
 
 import com.github.rodm.teamcity.pipeline
 import com.github.rodm.teamcity.gradle.switchGradleBuildStep
@@ -31,7 +31,7 @@ Subprojects can be defined either in their own settings.kts or by
 calling the subProjects() method in this project.
 */
 
-version = "2018.1"
+version = "2018.2"
 project {
     description = "Gradle plugin for developing TeamCity plugins [master]"
 
