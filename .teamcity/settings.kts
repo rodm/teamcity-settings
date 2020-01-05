@@ -139,6 +139,14 @@ project {
                     param("gradle.tasks", "clean build sonarqube")
                     param("gradle.opts", "%sonar.opts%")
                 }
+
+                features {
+                    feature {
+                        id = "gradle-init-scripts"
+                        type = "gradle-init-scripts"
+                        param("initScriptName", "sonarqube.gradle")
+                    }
+                }
             })
         }
         stage ("Functional tests") {
