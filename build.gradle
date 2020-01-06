@@ -28,8 +28,8 @@ teamcity {
     environments {
         baseHomeDir = project.serversDir
 
-        'teamcity2019.1' {
-            version = '2019.1.5'
+        'teamcity2019.2' {
+            version = '2019.2'
             javaHome = file(java8Home)
         }
     }
