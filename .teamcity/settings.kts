@@ -5,7 +5,6 @@ import jetbrains.buildServer.configs.kotlin.v2018_2.buildSteps.gradle
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2018_2.vcs.GitVcsRoot
 import jetbrains.buildServer.configs.kotlin.v2018_2.DslContext
-import jetbrains.buildServer.configs.kotlin.v2018_2.Template
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.VcsTrigger.QuietPeriodMode.USE_DEFAULT
 
 import com.github.rodm.teamcity.pipeline
@@ -35,11 +34,11 @@ version = "2019.1"
 project {
     description = "Gradle plugin for developing TeamCity plugins [master]"
 
-    val settingsVcs = GitVcsRoot({
+    val settingsVcs = GitVcsRoot {
         id("TeamcitySettings")
         name = "teamcity-settings"
         url = "https://github.com/rodm/teamcity-settings"
-    })
+    }
     vcsRoot(settingsVcs)
 
     features {
@@ -60,14 +59,14 @@ project {
         }
     }
 
-    val vcs = GitVcsRoot({
+    val vcs = GitVcsRoot {
         id("GradleTeamcityPlugin")
         name = "gradle-teamcity-plugin"
         url = "https://github.com/rodm/gradle-teamcity-plugin.git"
-    })
+    }
     vcsRoot(vcs)
 
-    val buildTemplate = Template({
+    val buildTemplate = template {
         id("Build")
         name = "build"
 
@@ -119,23 +118,22 @@ project {
             param("gradle.opts", "")
             param("java.home", "%java8.home%")
         }
-    })
-    template(buildTemplate)
+    }
 
     pipeline {
         stage ("Build") {
-            build ({
+            build {
                 id("BuildJava8")
                 name = "Build - Java 8"
                 templates(buildTemplate)
                 disableSettings("perfmon", "BUILD_EXT_2")
-            })
+            }
 
-            build ({
+            build {
                 id("ReportCodeQuality")
                 name = "Report - Code Quality"
                 templates(buildTemplate)
-                params{
+                params {
                     param("gradle.tasks", "clean build sonarqube")
                     param("gradle.opts", "%sonar.opts%")
                 }
@@ -147,7 +145,7 @@ project {
                         param("initScriptName", "sonarqube.gradle")
                     }
                 }
-            })
+            }
         }
         stage ("Functional tests") {
             defaults {
@@ -156,16 +154,16 @@ project {
                 }
             }
 
-            build ({
+            build {
                 id("FunctionalTestJava8")
                 name = "Functional Test - Java 8"
                 templates(buildTemplate)
                 params {
                     param("gradle.tasks", "clean functionalTest")
                 }
-            })
+            }
 
-            build ({
+            build {
                 id("FunctionalTestJava9")
                 name = "Functional Test - Java 9"
                 templates(buildTemplate)
@@ -173,9 +171,9 @@ project {
                     param("gradle.tasks", "clean functionalTest")
                     param("java.home", "%java9.home%")
                 }
-            })
+            }
 
-            build ({
+            build {
                 id("FunctionalTestJava10")
                 name = "Functional Test - Java 10"
                 templates(buildTemplate)
@@ -183,23 +181,23 @@ project {
                     param("gradle.tasks", "clean functionalTest")
                     param("java.home", "%java10.home%")
                 }
-            })
+            }
 
-            build ({
+            build {
                 id("SamplesTestJava8")
                 name = "Samples Test - Java 8"
                 templates(buildTemplate)
                 params{
                     param("gradle.tasks", "clean samplesTest")
                 }
-            })
+            }
         }
 
         stage ("Publish") {
-            build ({
+            build {
                 id("DummyPublish")
                 name = "Publish to plugin repository"
-            })
+            }
         }
     }
 }
