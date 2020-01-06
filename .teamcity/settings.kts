@@ -9,7 +9,6 @@ import jetbrains.buildServer.configs.kotlin.v2018_2.Template
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.VcsTrigger.QuietPeriodMode.USE_DEFAULT
 
 import com.github.rodm.teamcity.pipeline
-import com.github.rodm.teamcity.gradle.switchGradleBuildStep
 
 /*
 The settings script is an entry point for defining a single
@@ -31,7 +30,8 @@ Subprojects can be defined either in their own settings.kts or by
 calling the subProjects() method in this project.
 */
 
-version = "2018.2"
+version = "2019.1"
+
 project {
     description = "Gradle plugin for developing TeamCity plugins [master]"
 
