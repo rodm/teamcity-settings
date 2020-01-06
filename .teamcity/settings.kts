@@ -29,7 +29,7 @@ Subprojects can be defined either in their own settings.kts or by
 calling the subProjects() method in this project.
 */
 
-version = "2019.1"
+version = "2019.2"
 
 project {
     description = "Gradle plugin for developing TeamCity plugins [master]"
