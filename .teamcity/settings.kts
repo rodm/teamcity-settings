@@ -171,13 +171,7 @@ project {
                 templates(buildTemplate)
                 params {
                     param("gradle.tasks", "clean functionalTest")
-                    param("gradle.version", "4.3")
                     param("java.home", "%java9.home%")
-                }
-
-                steps {
-                    switchGradleBuildStep()
-                    stepsOrder = arrayListOf("SWITCH_GRADLE", "GRADLE_BUILD")
                 }
             })
 
@@ -187,13 +181,7 @@ project {
                 templates(buildTemplate)
                 params {
                     param("gradle.tasks", "clean functionalTest")
-                    param("gradle.version", "4.7")
                     param("java.home", "%java10.home%")
-                }
-
-                steps {
-                    switchGradleBuildStep()
-                    stepsOrder = arrayListOf("SWITCH_GRADLE", "GRADLE_BUILD")
                 }
             })
 
