@@ -1,11 +1,11 @@
 
-import jetbrains.buildServer.configs.kotlin.v2018_2.version
-import jetbrains.buildServer.configs.kotlin.v2018_2.project
-import jetbrains.buildServer.configs.kotlin.v2018_2.buildSteps.gradle
-import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.vcs
-import jetbrains.buildServer.configs.kotlin.v2018_2.vcs.GitVcsRoot
-import jetbrains.buildServer.configs.kotlin.v2018_2.DslContext
-import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.VcsTrigger.QuietPeriodMode.USE_DEFAULT
+import jetbrains.buildServer.configs.kotlin.v2019_2.version
+import jetbrains.buildServer.configs.kotlin.v2019_2.project
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
+import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
+import jetbrains.buildServer.configs.kotlin.v2019_2.vcs.GitVcsRoot
+import jetbrains.buildServer.configs.kotlin.v2019_2.DslContext
+import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.VcsTrigger.QuietPeriodMode.USE_DEFAULT
 
 import com.github.rodm.teamcity.pipeline
 
