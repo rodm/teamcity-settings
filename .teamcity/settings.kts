@@ -8,6 +8,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.DslContext
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.VcsTrigger.QuietPeriodMode.USE_DEFAULT
 
 import com.github.rodm.teamcity.pipeline
+import com.github.rodm.teamcity.project.githubIssueTracker
 
 /*
 The settings script is an entry point for defining a single
@@ -50,6 +51,13 @@ project {
 //            showChanges = true
 //            settingsFormat = VersionedSettings.Format.KOTLIN
 //        }
+
+        githubIssueTracker {
+            displayName = "GradleTeamCityPlugin"
+            repository = "https://github.com/rodm/gradle-teamcity-plugin"
+            pattern = """#(\d+)"""
+        }
+
         feature {
             id = "PROJECT_EXT_2"
             type = "JetBrains.SharedResources"
