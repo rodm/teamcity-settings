@@ -67,6 +67,10 @@ project {
         }
     }
 
+    params {
+        param("teamcity.ui.settings.readOnly", "true")
+    }
+
     val vcs = GitVcsRoot {
         id("GradleTeamcityPlugin")
         name = "gradle-teamcity-plugin"
