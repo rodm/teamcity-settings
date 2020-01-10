@@ -228,7 +228,7 @@ project {
                 templates(buildTemplate)
 
                 params {
-                    param("gradle.tasks", "clean build publishPluginToMavenLocal")
+                    param("gradle.tasks", "clean build publishPluginPublicationToMavenLocal")
                 }
 
                 triggers {
