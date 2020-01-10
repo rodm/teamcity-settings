@@ -142,6 +142,16 @@ project {
             }
 
             build {
+                id("BuildJava11")
+                name = "Build - Java 11"
+                templates(buildTemplate)
+
+                params {
+                    param("java.home", "%java11.home%")
+                }
+            }
+
+            build {
                 id("ReportCodeQuality")
                 name = "Report - Code Quality"
                 templates(buildTemplate)
