@@ -8,6 +8,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.DslContext
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.VcsTrigger.QuietPeriodMode.USE_DEFAULT
 
 import com.github.rodm.teamcity.pipeline
+import com.github.rodm.teamcity.gradle.switchGradleBuildStep
 import com.github.rodm.teamcity.project.githubIssueTracker
 
 /*
@@ -202,6 +203,46 @@ project {
                 params {
                     param("gradle.tasks", "clean functionalTest")
                     param("java.home", "%java10.home%")
+                }
+            }
+
+            build {
+                id("FunctionalTestJava11")
+                name = "Functional Test - Java 11"
+                templates(buildTemplate)
+                params {
+                    param("gradle.tasks", "clean functionalTest")
+                    param("java.home", "%java11.home%")
+                }
+            }
+
+            build {
+                id("FunctionalTestJava12")
+                name = "Functional Test - Java 12"
+                templates(buildTemplate)
+                params {
+                    param("gradle.tasks", "clean functionalTest")
+                    param("gradle.version", "5.4")
+                    param("java.home", "%java12.home%")
+                }
+                steps {
+                    switchGradleBuildStep()
+                    stepsOrder = arrayListOf("SWITCH_GRADLE", "GRADLE_BUILD")
+                }
+            }
+
+            build {
+                id("FunctionalTestJava13")
+                name = "Functional Test - Java 13"
+                templates(buildTemplate)
+                params {
+                    param("gradle.tasks", "clean functionalTest")
+                    param("gradle.version", "6.0")
+                    param("java.home", "%java13.home%")
+                }
+                steps {
+                    switchGradleBuildStep()
+                    stepsOrder = arrayListOf("SWITCH_GRADLE", "GRADLE_BUILD")
                 }
             }
 
