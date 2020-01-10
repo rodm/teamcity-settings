@@ -82,17 +82,6 @@ project {
             }
         }
 
-        triggers {
-            vcs {
-                id = "TRIGGER_1"
-                quietPeriodMode = USE_DEFAULT
-                triggerRules = """
-                    +:root=${DslContext.projectId.absoluteId}_TeamcitySettings;:**
-                    +:root=${DslContext.projectId.absoluteId}_GradleTeamcityPlugin:**
-                 """.trimIndent()
-            }
-        }
-
         failureConditions {
             executionTimeoutMin = 10
         }
@@ -236,7 +225,20 @@ project {
         stage ("Publish") {
             build {
                 id("DummyPublish")
-                name = "Publish to plugin repository"
+                name = "Publish to repository"
+                templates(buildTemplate)
+
+                params {
+                    param("gradle.tasks", "clean build publishPluginToMavenLocal")
+                }
+
+                triggers {
+                    vcs {
+                        quietPeriodMode = USE_DEFAULT
+                        branchFilter = ""
+//                        triggerRules = "-:.teamcity/**"
+                    }
+                }
             }
         }
     }
