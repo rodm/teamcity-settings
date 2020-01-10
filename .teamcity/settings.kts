@@ -44,27 +44,10 @@ project {
     vcsRoot(settingsVcs)
 
     features {
-//        versionedSettings {
-//            id = "PROJECT_EXT_1"
-//            mode = VersionedSettings.Mode.ENABLED
-//            buildSettingsMode = VersionedSettings.BuildSettingsMode.PREFER_SETTINGS_FROM_VCS
-//            rootExtId = "TeamcitySettings"
-//            showChanges = true
-//            settingsFormat = VersionedSettings.Format.KOTLIN
-//        }
-
         githubIssueTracker {
             displayName = "GradleTeamCityPlugin"
             repository = "https://github.com/rodm/gradle-teamcity-plugin"
             pattern = """#(\d+)"""
-        }
-
-        feature {
-            id = "PROJECT_EXT_2"
-            type = "JetBrains.SharedResources"
-            param("name", "BuildLimit")
-            param("type", "quoted")
-            param("quota", "2")
         }
     }
 
@@ -119,11 +102,6 @@ project {
                 id = "perfmon"
                 type = "perfmon"
             }
-            feature {
-                id = "BUILD_EXT_2"
-                type = "JetBrains.SharedResources"
-                param("locks-param", "BuildLimit readLock")
-            }
         }
 
         params {
@@ -139,7 +117,6 @@ project {
                 id("BuildJava8")
                 name = "Build - Java 8"
                 templates(buildTemplate)
-                disableSettings("perfmon", "BUILD_EXT_2")
             }
 
             build {
