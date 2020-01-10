@@ -1,8 +1,6 @@
 
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.2.50'
     id 'com.github.rodm.teamcity-environments' version '1.2.2'
-    id 'com.github.rodm.teamcity-dsl' version '0.6'
 }
 
 ext {
@@ -10,18 +8,6 @@ ext {
     serversDir = findProperty('servers.dir') ?: "$rootDir/servers"
     java8Home = findProperty('java8.home') ?: '/opt/jdk1.8.0_121'
     teamcityServer = findProperty('teamcity.server') ?: 'localhost'
-}
-
-repositories {
-    maven {
-        url "http://${teamcityServer}:8111/app/dsl-plugins-repository"
-    }
-}
-
-sourceSets.teamcity.kotlin.filter.include('**/*.kts')
-
-teamcityConfig {
-    teamcityVersion = '2018.1'
 }
 
 teamcity {
