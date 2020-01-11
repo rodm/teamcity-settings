@@ -142,42 +142,22 @@ project {
                 }
             }
 
-            build {
-                id("FunctionalTestJava8")
-                name = "Functional Test - Java 8"
-                templates(buildTemplate)
-                params {
-                    param("gradle.tasks", "clean functionalTest")
+            matrix {
+                axes {
+                    "Java"("8", "9", "10", "11")
                 }
-            }
-
-            build {
-                id("FunctionalTestJava9")
-                name = "Functional Test - Java 9"
-                templates(buildTemplate)
-                params {
-                    param("gradle.tasks", "clean functionalTest")
-                    param("java.home", "%java9.home%")
-                }
-            }
-
-            build {
-                id("FunctionalTestJava10")
-                name = "Functional Test - Java 10"
-                templates(buildTemplate)
-                params {
-                    param("gradle.tasks", "clean functionalTest")
-                    param("java.home", "%java10.home%")
-                }
-            }
-
-            build {
-                id("FunctionalTestJava11")
-                name = "Functional Test - Java 11"
-                templates(buildTemplate)
-                params {
-                    param("gradle.tasks", "clean functionalTest")
-                    param("java.home", "%java11.home%")
+                build {
+                    val javaVersion = axes["Java"]
+                    id("FunctionalTestJava${javaVersion}")
+                    name = "Functional Test - Java ${javaVersion}"
+                    templates(buildTemplate)
+                    failureConditions {
+                        executionTimeoutMin = 20
+                    }
+                    params {
+                        param("gradle.tasks", "clean functionalTest")
+                        param("java.home", "%java${javaVersion}.home%")
+                    }
                 }
             }
 
