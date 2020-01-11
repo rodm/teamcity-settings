@@ -1,4 +1,5 @@
 
+import com.github.rodm.teamcity.gradle.gradleInitScript
 import jetbrains.buildServer.configs.kotlin.v2019_2.version
 import jetbrains.buildServer.configs.kotlin.v2019_2.project
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
@@ -127,10 +128,8 @@ project {
                 }
 
                 features {
-                    feature {
-                        id = "gradle-init-scripts"
-                        type = "gradle-init-scripts"
-                        param("initScriptName", "sonarqube.gradle")
+                    gradleInitScript {
+                        scriptName = "sonarqube.gradle"
                     }
                 }
             }
