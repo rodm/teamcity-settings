@@ -16,7 +16,7 @@ tests or functional tests or sample tests. There is also a code quality build co
 * `template` - contains a project configuration with the same build configurations as the `builds` branch but they
 are based on a build template.
 
-Follow the steps below to import the settings into a TeamCity 10 Server
+Follow the steps below to import the settings into a TeamCity Server
 
 * Create a VCS Root for the https://github.com/rodm/teamcity-settings[TeamCity settings] project in the 'Root project'
 ** Enter the project URL, https://github.com/rodm/teamcity-settings, in the Fetch URL field
@@ -37,7 +37,16 @@ To make changes fork the project and update the VCS root URLs to use your own re
 
 == Resources
 
-Kotlin Configuration Scripts series on the TeamCity blog.
+Configuration as Code series by Anton Arhipov in 2019 from the TeamCity blog
+
+. https://blog.jetbrains.com/teamcity/2019/03/configuration-as-code-part-1-getting-started-with-kotlin-dsl/[Part 1: Getting Started with Kotlin DSL]
+. https://blog.jetbrains.com/teamcity/2019/03/configuration-as-code-part-2-working-with-kotlin-scripts/[Part 2: Working with Kotlin Scripts]
+. https://blog.jetbrains.com/teamcity/2019/04/configuration-as-code-part-3-creating-build-configurations-dynamically/[Part 3: Creating Build Configurations Dynamically]
+. https://blog.jetbrains.com/teamcity/2019/04/configuration-as-code-part-4-extending-the-teamcity-dsl/[Part 4: Extending the TeamCity DSL]
+. https://blog.jetbrains.com/teamcity/2019/04/configuration-as-code-part-5-using-dsl-extensions-as-a-library/[Part 5: Using DSL extensions as a library]
+. https://blog.jetbrains.com/teamcity/2019/05/configuration-as-code-part-6-testing-configuration-scripts/[Part 6: Testing Configuration Scripts]
+
+Kotlin Configuration Scripts series by Hadi Hariri in 2016 & 2017 from the TeamCity blog
 
 . https://blog.jetbrains.com/teamcity/2016/11/kotlin-configuration-scripts-an-introduction/[An Introduction]
 . https://blog.jetbrains.com/teamcity/2016/12/kotlin-configuration-scripts-working-with-configuration-scripts/[Working with Configuration Scripts]
