@@ -1,13 +1,14 @@
 
-import com.github.rodm.teamcity.gradle.gradleInitScript
 import jetbrains.buildServer.configs.kotlin.v2019_2.version
 import jetbrains.buildServer.configs.kotlin.v2019_2.project
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2019_2.vcs.GitVcsRoot
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.VcsTrigger.QuietPeriodMode.USE_DEFAULT
+import jetbrains.buildServer.configs.kotlin.v2019_2.DslContext
 
 import com.github.rodm.teamcity.pipeline
+import com.github.rodm.teamcity.gradle.gradleInitScript
 import com.github.rodm.teamcity.gradle.switchGradleBuildStep
 import com.github.rodm.teamcity.project.githubIssueTracker
 
@@ -214,7 +215,10 @@ project {
                     vcs {
                         quietPeriodMode = USE_DEFAULT
                         branchFilter = ""
-//                        triggerRules = "-:.teamcity/**"
+                        triggerRules = """
+                            +:root=${DslContext.projectId.absoluteId}_TeamcitySettings;:**
+                            +:root=${DslContext.projectId.absoluteId}_GradleTeamcityPlugin:**
+                            """.trimIndent()
                     }
                 }
             }
