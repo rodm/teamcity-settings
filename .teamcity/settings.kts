@@ -35,7 +35,8 @@ calling the subProjects() method in this project.
 version = "2019.2"
 
 project {
-    description = "Gradle plugin for developing TeamCity plugins [master]"
+    val settingsBranch = DslContext.getParameter("settings.branch", "master")
+    description = "Gradle plugin for developing TeamCity plugins (Settings: [${settingsBranch}])"
 
     val settingsVcs = GitVcsRoot {
         id("TeamcitySettings")
