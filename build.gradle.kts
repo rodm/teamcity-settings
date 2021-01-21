@@ -2,7 +2,7 @@
 import com.github.rodm.teamcity.TeamCityEnvironment
 
 plugins {
-    id ("com.github.rodm.teamcity-environments") version "1.2.2"
+    id ("com.github.rodm.teamcity-environments") version "1.3.2"
 }
 
 extra["downloadsDir"] = project.findProperty("downloads.dir") as String? ?: "$rootDir/downloads"
