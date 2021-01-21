@@ -16,8 +16,8 @@ teamcity {
 
         operator fun String.invoke(block: TeamCityEnvironment.() -> Unit) = environments.create(this, closureOf(block))
 
-        "teamcity2020.1" {
-            version = "2020.1.5"
+        "teamcity2020.2" {
+            version = "2020.2.1"
             javaHome = file(extra["java8Home"] as String)
         }
     }
