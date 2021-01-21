@@ -1,6 +1,4 @@
 
-import com.github.rodm.teamcity.TeamCityEnvironment
-
 plugins {
     id ("com.github.rodm.teamcity-environments") version "1.3.2"
 }
@@ -14,9 +12,7 @@ teamcity {
         downloadsDir = extra["downloadsDir"] as String
         baseHomeDir = extra["serversDir"] as String
 
-        operator fun String.invoke(block: TeamCityEnvironment.() -> Unit) = environments.create(this, closureOf(block))
-
-        "teamcity2020.2" {
+        register("teamcity2020.2") {
             version = "2020.2.1"
             javaHome = file(extra["java8Home"] as String)
         }
