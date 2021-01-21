@@ -32,7 +32,7 @@ Subprojects can be defined either in their own settings.kts or by
 calling the subProjects() method in this project.
 */
 
-version = "2019.2"
+version = "2020.1"
 
 project {
     val settingsBranch = DslContext.getParameter("settings.branch", "master")
