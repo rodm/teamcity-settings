@@ -145,7 +145,7 @@ project {
 
             matrix {
                 axes {
-                    "Java"("8", "9", "10", "11")
+                    "Java"("8", "11", "12", "13")
                 }
                 build {
                     val javaVersion = axes["Java"]
@@ -162,33 +162,27 @@ project {
                 }
             }
 
-            build {
-                id("FunctionalTestJava12")
-                name = "Functional Test - Java 12"
-                templates(buildTemplate)
-                params {
-                    param("gradle.tasks", "clean functionalTest")
-                    param("gradle.version", "5.4")
-                    param("java.home", "%java12.home%")
+            matrix {
+                axes {
+                    "Versions"("14, 6.3", "15, 6.7.1")
                 }
-                steps {
-                    switchGradleBuildStep()
-                    stepsOrder = arrayListOf("SWITCH_GRADLE", "GRADLE_BUILD")
-                }
-            }
+                build {
+                    val versions = axes["Versions"]?.split(",")
+                    val javaVersion = versions?.get(0)?.trim()
+                    val gradleVersion = versions?.get(1)?.trim()
 
-            build {
-                id("FunctionalTestJava13")
-                name = "Functional Test - Java 13"
-                templates(buildTemplate)
-                params {
-                    param("gradle.tasks", "clean functionalTest")
-                    param("gradle.version", "6.0")
-                    param("java.home", "%java13.home%")
-                }
-                steps {
-                    switchGradleBuildStep()
-                    stepsOrder = arrayListOf("SWITCH_GRADLE", "GRADLE_BUILD")
+                    id("FunctionalTestJava${javaVersion}")
+                    name = "Functional Test - Java ${javaVersion}"
+                    templates(buildTemplate)
+                    params {
+                        param("gradle.tasks", "clean functionalTest")
+                        param("gradle.version", "${gradleVersion}")
+                        param("java.home", "%java${javaVersion}.home%")
+                    }
+                    steps {
+                        switchGradleBuildStep()
+                        stepsOrder = arrayListOf("SWITCH_GRADLE", "GRADLE_BUILD")
+                    }
                 }
             }
 
