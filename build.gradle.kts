@@ -13,7 +13,7 @@ teamcity {
         baseHomeDir = extra["serversDir"] as String
 
         register("teamcity2020.2") {
-            version = "2020.2.1"
+            version = "2020.2.2"
             javaHome = file(extra["java8Home"] as String)
         }
     }
